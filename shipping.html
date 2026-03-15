@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Add Shipping Address — PersonalVault</title>
+  <link rel="stylesheet" href="css/style.css?v=20260312">
+  <style>
+    :root{ --midnight:#0D1B2A; --navy:#1B263B; --saffron:#E65100; --teal:#00BFA5; }
+    body{ background:linear-gradient(180deg,var(--midnight),var(--navy)); color:#e6eef6; font-family:Inter,system-ui,Arial; padding:20px }
+    .card{ max-width:720px;margin:20px auto;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);padding:20px;border-radius:10px }
+    .logo-row{ display:flex;justify-content:space-between;align-items:center;margin-bottom:12px }
+    .progress{ font-size:13px;color:#9fb6cc;margin-bottom:12px }
+    .muted{ color:#9fb6cc }
+    input,select,textarea{ width:100%;padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;margin-top:6px }
+    .btn{ display:inline-block;padding:10px 14px;border-radius:8px;background:var(--saffron);color:#fff;text-decoration:none;font-weight:600 }
+    .btn-ghost{ background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit }
+    .row{ display:flex;gap:12px }
+    .col{ flex:1 }
+    @media(max-width:600px){ .row{ flex-direction:column } }
+    .otp-input{ letter-spacing:6px;font-size:20px;text-align:center }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-row">
+      <div style="display:flex;align-items:center;gap:12px">
+        <img src="logo.png" alt="PersonalVault" style="height:36px">
+        <strong>PersonalVault</strong>
+      </div>
+      <nav><a href="mailto:support@personalvault.in" class="muted">Support</a></nav>
+    </div>
+
+    <div id="content">
+      <div class="progress" id="progress">Step 1 of 3 — Verify email</div>
+      <h2 id="heading">Verify your email</h2>
+      <p class="muted" id="summary">Loading order…</p>
+
+      <div id="step-email">
+        <p>Email: <strong id="email-mask"></strong> <span id="email-status" style="margin-left:8px"></span></p>
+        <div style="margin-top:8px">
+          <button id="send-otp" class="btn">Send verification code</button>
+        </div>
+        <div id="otp-area" style="margin-top:12px;display:none">
+          <label class="muted">Enter 6-digit code</label>
+          <input id="otp-input" class="otp-input" maxlength="6" placeholder="______">
+          <div style="margin-top:8px">
+            <button id="confirm-otp" class="btn">Verify email</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="step-phone" style="margin-top:18px;display:none">
+        <div class="muted">Phone (from payment)</div>
+        <div><strong id="phone-mask"></strong></div>
+        <div style="margin-top:6px;color:#9fb6cc;font-size:13px">SMS not available — phone shown for reference.</div>
+      </div>
+
+      <div id="step-address" style="margin-top:18px;display:none">
+        <h3>Shipping address</h3>
+        <form id="address-form">
+          <div class="row">
+            <div class="col"><label>Full name</label><input id="full_name" name="full_name" required></div>
+          </div>
+          <label>Address line 1</label>
+          <input id="address1" name="address1" required>
+          <label>Address line 2</label>
+          <input id="address2" name="address2">
+          <div class="row">
+            <div class="col"><label>City</label><input id="city" name="city" required></div>
+            <div class="col"><label>State</label><select id="state" name="state" required></select></div>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <div class="col"><label>PIN Code</label><input id="pincode" name="pincode" required pattern="[0-9]{6}"></div>
+            <div class="col"><label>Country</label><input id="country" name="country" value="India" disabled></div>
+          </div>
+          <div style="margin-top:12px">
+            <button type="submit" class="btn">Save address</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="success" style="display:none;margin-top:12px">
+        <h3>Address saved!</h3>
+        <p>We'll ship your PersonalVault to this address. Expected delivery: June 2026.</p>
+        <p style="margin-top:10px"><a id="back-home" class="btn-ghost" href="index.html">Back to Home</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const token = new URLSearchParams(window.location.search).get('token');
+    if(!token){ document.getElementById('content').innerHTML = '<p>Missing token. Please use the link we emailed you.'; }
+    let orderData = null;
+
+    function setStep(n){
+      document.getElementById('progress').textContent = n===1? 'Step 1 of 3 — Verify email' : n===2? 'Step 2 of 3 — Confirm phone' : 'Step 3 of 3 — Shipping address';
+    }
+
+    async function load(){
+      const res = await fetch('/api/shipping/'+token);
+      if(!res.ok){ document.getElementById('content').innerHTML = '<p>Link expired or invalid. Please contact support.</p>'; return; }
+      orderData = await res.json();
+      document.getElementById('summary').textContent = `Order ${orderData.short_id} — ₹${orderData.amountINR} — ${new Date(orderData.date).toDateString()}`;
+      document.getElementById('email-mask').textContent = orderData.email_masked;
+      document.getElementById('phone-mask').textContent = orderData.phone_masked;
+      document.getElementById('full_name').value = orderData.name || '';
+      if(orderData.email_verified){ document.getElementById('email-status').textContent = '✅ Verified'; showAddressStep(); }
+    }
+
+    document.getElementById('send-otp').addEventListener('click', async ()=>{
+      const res = await fetch('/api/shipping/'+token+'/verify-email', { method:'POST' });
+      if(res.ok){ document.getElementById('otp-area').style.display='block'; alert('OTP sent — check your email'); }
+      else{ const j = await res.json(); alert(j.error || 'Could not send OTP'); }
+    });
+
+    document.getElementById('confirm-otp').addEventListener('click', async ()=>{
+      const otp = document.getElementById('otp-input').value;
+      const res = await fetch('/api/shipping/'+token+'/confirm-email', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ otp }) });
+      if(res.ok){ document.getElementById('email-status').textContent = '✅ Verified'; document.getElementById('otp-area').style.display='none'; showAddressStep(); }
+      else{ const j = await res.json(); alert(j.error || 'Could not verify OTP'); }
+    });
+
+    function showAddressStep(){
+      document.getElementById('step-phone').style.display='block';
+      document.getElementById('step-address').style.display='block';
+      setStep(3);
+    }
+
+    document.getElementById('address-form').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const data = {
+        full_name: document.getElementById('full_name').value,
+        address1: document.getElementById('address1').value,
+        address2: document.getElementById('address2').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        pincode: document.getElementById('pincode').value,
+        country: document.getElementById('country').value,
+      };
+      const res = await fetch('/api/shipping/'+token+'/address', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(data) });
+      if(res.ok){ document.getElementById('step-address').style.display='none'; document.getElementById('success').style.display='block'; }
+      else{ const j = await res.json(); alert(j.error || 'Could not save address'); }
+    });
+
+    // populate states
+    const states = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli and Daman and Diu","Lakshadweep","Delhi","Puducherry","Ladakh","Jammu and Kashmir"];
+    const sel = document.getElementById('state');
+    states.forEach(s=>{ const o = document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o); });
+
+    load().catch(()=>{ document.getElementById('content').innerHTML = '<p>Could not load order. Please contact support.</p>'; });
+  </script>
+</body>
+</html>

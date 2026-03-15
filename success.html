@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Order Confirmed — PersonalVault</title>
+  <link rel="stylesheet" href="css/style.css?v=20260312">
+</head>
+<body>
+  <main style="padding:40px;max-width:900px;margin:40px auto;color:var(--muted-white);">
+    <div style="background:linear-gradient(180deg,#0F1E30,#162336);padding:28px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);">
+      <h1>You're in! 🎉</h1>
+      <p id="order-id" style="font-weight:700;margin-top:6px"></p>
+      <p style="margin-top:12px">Your PersonalVault is reserved. We've sent a confirmation to your email. Use the link in that email to add your delivery address — takes less than a minute.</p>
+      <h3 style="margin-top:18px">Next step: Add your delivery address</h3>
+      <p>Please verify your email and add your delivery address so we can deliver your PersonalVault. Estimated shipping: June 2026.</p>
+      <ol>
+        <li>Click the button below (or use the link in your email).</li>
+        <li>Verify your email with a one-time code.</li>
+        <li>Enter your shipping address.</li>
+      </ol>
+      <div style="margin-top:18px">
+        <a class="btn primary" id="add-address" href="#">Add Delivery Address →</a>
+        <a class="btn primary" href="index.html" style="margin-left:8px">Back to Home</a>
+      </div>
+      <p class="success-later-note">Or do it later from your email — it'll be there waiting.</p>
+    </div>
+  </main>
+
+  <script>
+    function getParam(name){
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+    const order = getParam('order');
+    const token = getParam('token');
+    const el = document.getElementById('order-id');
+    if(order){ el.textContent = `Order # ${order}` } else { el.textContent = 'Order reference not found.' }
+    const addBtn = document.getElementById('add-address');
+    addBtn.addEventListener('click', ()=>{
+      const t = token || order;
+      if(t){ window.location.href = `shipping.html?token=${t}` } else { alert('No order reference found. Check your email for the shipping address link.'); }
+    });
+  </script>
+</body>
+</html>

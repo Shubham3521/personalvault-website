@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/style.css?v=20260312">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PersonalVault Admin</title>
+  <style>
+    :root{--bg:#0D1B2A;--card:#1B263B;--muted:#98A0B3;--accent:#4FD1C5;--success:#2ECC71;--warn:#F1C40F;--danger:#E74C3C}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#E6EEF3}
+    .container{max-width:1100px;margin:24px auto;padding:20px}
+    .card{background:var(--card);padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    .center{display:flex;align-items:center;justify-content:center}
+    .login{max-width:420px;margin:80px auto}
+    input[type=password]{width:100%;padding:12px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    button{background:var(--accent);border:none;padding:10px 14px;border-radius:6px;color:#062027;cursor:pointer}
+    .tabs{display:flex;gap:12px;margin-bottom:12px}
+    .tab{padding:8px 12px;border-radius:6px;background:transparent;border:1px solid transparent;cursor:pointer}
+    .tab.active{background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.04)}
+    .stats{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+    .stat{flex:1;min-width:160px;padding:12px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);font-size:13px}
+    tr:nth-child(even){background:rgba(255,255,255,0.01)}
+    .muted{color:var(--muted)}
+    .status-paid{color:var(--success);font-weight:600}
+    .status-created{color:var(--warn);font-weight:600}
+    .status-failed{color:var(--danger);font-weight:600}
+    .ship-complete{color:var(--success);font-weight:600}
+    .ship-partial{color:var(--warn);font-weight:600}
+    .ship-pending{color:#95A3B5;font-weight:600}
+    .row-expanded{background:rgba(255,255,255,0.02)}
+    .toolbar{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .scroll-x{overflow:auto}
+    @media (max-width:700px){.stats{flex-direction:column}.stat{min-width:unset}}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div id="app"></div>
+</div>
+<script>
+const API_BASE = '/api/admin';
+function el(tag, attrs={}, ...children){const e=document.createElement(tag);for(const k in attrs){if(k.startsWith('on')&&typeof attrs[k]==='function'){// normalize event names: onClick, onclick, onkeydown -> 'click', 'keydown'
+    const ev = k.slice(2).toLowerCase();e.addEventListener(ev, attrs[k]);}else if(k==='html'){e.innerHTML=attrs[k];}else e.setAttribute(k,attrs[k]);}children.forEach(c=>{if(typeof c==='string') e.appendChild(document.createTextNode(c));else if(c) e.appendChild(c)});return e}
+
+function showLogin(){const app=document.getElementById('app');app.innerHTML='';
+  const card=el('div',{class:'card login'});
+  card.appendChild(el('h2',{},'PersonalVault Admin'));
+  card.appendChild(el('p',{class:'muted'},'Enter admin password to continue'));
+  const input=el('input',{type:'password',placeholder:'Admin password', id:'admin-password'});
+  const btn=el('button',{onClick:async()=>{await attemptLogin(input.value)}},'Login');
+  // submit on Enter
+  input.addEventListener('keydown', async (e)=>{if(e.key==='Enter'){e.preventDefault();btn.click();}});
+  card.appendChild(input);
+  card.appendChild(el('div',{style:'height:8px'}));
+  card.appendChild(btn);
+  app.appendChild(card);
+}
+
+async function attemptLogin(password){try{
+  const res=await fetch(API_BASE+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});
+  if(res.status===200){const j=await res.json();localStorage.setItem('pv_admin_token',j.token);showDashboard();}
+  else{const err=await res.json();alert(err.error||'Login failed')}
+}catch(e){alert('Network error')}
+}
+
+function authHeader(){const t=localStorage.getItem('pv_admin_token');return t?{'Authorization':'Bearer '+t}:{}} 
+
+async function fetchJSON(path){const res=await fetch(API_BASE+path,{headers:authHeader()});if(res.status===401){localStorage.removeItem('pv_admin_token');showLogin();throw new Error('unauthorized')}return res.json();}
+
+async function showDashboard(){const app=document.getElementById('app');app.innerHTML='';
+  const top=el('div',{class:'toolbar'});
+  top.appendChild(el('h2',{},'Admin Dashboard'));
+  const logoutBtn=el('button',{onClick:()=>{localStorage.removeItem('pv_admin_token');showLogin()}},'Logout');
+  top.appendChild(logoutBtn);
+  app.appendChild(top);
+
+  const tabs=el('div',{class:'tabs'});
+  const ordersTab=el('div',{class:'tab active',id:'tab-orders'},'Orders');
+  const waitlistTab=el('div',{class:'tab',id:'tab-waitlist'},'Waitlist');
+  const exportTab=el('div',{class:'tab',id:'tab-export'},'Export');
+  tabs.appendChild(ordersTab);tabs.appendChild(waitlistTab);tabs.appendChild(exportTab);
+  app.appendChild(tabs);
+
+  const statsContainer=el('div',{class:'stats',id:'stats'});app.appendChild(statsContainer);
+  const content=el('div',{id:'content'});app.appendChild(content);
+
+  async function loadStats(){try{const s=await fetchJSON('/stats');statsContainer.innerHTML='';
+    statsContainer.appendChild(el('div',{class:'stat'},el('div',{},el('div',{},'Total Orders'),el('div',{},String(s.totalOrders)))));
+    statsContainer.appendChild(el('div',{class:'stat'},el('div',{},el('div',{},'Total Paid'),el('div',{},String(s.totalPaid)))));
+    statsContainer.appendChild(el('div',{class:'stat'},el('div',{},el('div',{},'Total Revenue (₹)'),el('div',{},String((s.totalRevenue/100).toFixed(2))))));
+    statsContainer.appendChild(el('div',{class:'stat'},el('div',{},el('div',{},'Waitlist'),el('div',{},String(s.totalWaitlist)))));
+  }catch(e){console.error(e)} }
+
+  async function showOrders(){content.innerHTML='';
+    const orders=await fetchJSON('/orders');
+    const header=el('div',{class:'muted'},'Orders — newest first');
+    content.appendChild(header);
+    content.appendChild(el('div',{class:'scroll-x'},createOrdersTable(orders)));
+  }
+
+  function createOrdersTable(orders){const table=el('table');const thead=el('thead');thead.appendChild(el('tr',{},el('th',{},'Order ID'),el('th',{},'Customer'),el('th',{},'Email'),el('th',{},'Phone'),el('th',{},'Amount'),el('th',{},'Status'),el('th',{},'Shipping'),el('th',{},'Payment ID'),el('th',{},'Date')));table.appendChild(thead);
+    const tbody=el('tbody');orders.forEach(o=>{const tr=el('tr',{});
+      tr.appendChild(el('td',{},o.short_id||o.id));
+      tr.appendChild(el('td',{},o.customer_name||'—'));
+      tr.appendChild(el('td',{},o.customer_email||'—'));
+      tr.appendChild(el('td',{},o.customer_phone||'—'));
+      tr.appendChild(el('td',{},o.amount? '₹'+(o.amount/100).toFixed(2):'—'));
+      const statusClass = o.status==='paid'?'status-paid':(o.status==='created'?'status-created':'status-failed');
+      tr.appendChild(el('td',{},el('span',{class:statusClass},o.status||'—')));
+      const shipClass = o.shipping_status==='complete'?'ship-complete':(o.shipping_status==='partial'?'ship-partial':'ship-pending');
+      tr.appendChild(el('td',{},el('span',{class:shipClass},o.shipping_status||'pending')));
+      tr.appendChild(el('td',{},o.razorpay_payment_id||'—'));
+      tr.appendChild(el('td',{},o.created_at||o.updated_at||'—'));
+      tr.addEventListener('click', ()=>{toggleExpand(tr,o)});
+      tbody.appendChild(tr);
+    });table.appendChild(tbody);return table;
+  }
+
+  function toggleExpand(tr,o){if(tr.nextSibling && tr.nextSibling.classList && tr.nextSibling.classList.contains('row-expanded')){tr.nextSibling.remove();return}
+    const row=el('tr',{class:'row-expanded'});
+    const td=el('td',{colspan:9});
+    const addr = parseShipping(o.shipping_address);
+    td.appendChild(el('div',{},el('strong',{},'Shipping Address: '),el('div',{},addr||'—')));
+    td.appendChild(el('div',{style:'height:6px'}));
+    td.appendChild(el('div',{},el('strong',{},'Email Verified: '), (o.email_verified? 'Yes': 'No')));
+    td.appendChild(el('div',{style:'height:6px'}));
+    td.appendChild(el('div',{},el('strong',{},'Razorpay Order ID: '), o.razorpay_order_id||'—'));
+    td.appendChild(el('div',{},el('strong',{},'Payment ID: '), o.razorpay_payment_id||'—'));
+    row.appendChild(td);
+    tr.parentNode.insertBefore(row, tr.nextSibling);
+  }
+
+  function parseShipping(raw){if(!raw) return null;try{const j=typeof raw==='string'?JSON.parse(raw):raw;const parts=[];if(j.address1) parts.push(j.address1); if(j.address2) parts.push(j.address2); if(j.city) parts.push(j.city); if(j.region) parts.push(j.region); if(j.postcode) parts.push(j.postcode); if(j.country) parts.push(j.country); return parts.join(', ')}catch(e){return String(raw)} }
+
+  async function showWaitlist(){content.innerHTML='';
+    const list=await fetchJSON('/waitlist');
+    const header=el('div',{class:'muted'},'Waitlist — newest first');
+    content.appendChild(header);
+    const table=el('table');table.appendChild(el('thead',{},el('tr',{},el('th',{},'Email'),el('th',{},'Name'),el('th',{},'Date'))));
+    const tbody=el('tbody');list.forEach(w=>{tbody.appendChild(el('tr',{},el('td',{},w.email),el('td',{},w.name||'—'),el('td',{},w.created_at||'—')))});
+    table.appendChild(tbody);
+    content.appendChild(el('div',{class:'scroll-x'},table));
+  }
+
+  function showExport(){content.innerHTML='';
+    const download = async (path, filename)=>{
+      try{
+        const res = await fetch(API_BASE+path, {headers: authHeader()});
+        if(res.status===401){localStorage.removeItem('pv_admin_token');showLogin();return}
+        if(!res.ok) throw new Error('Export failed');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      }catch(e){alert('Export failed')}
+    };
+    const btn1=el('button',{onClick:()=>{download('/orders/csv','orders.csv');}},'Export Orders CSV');
+    const btn2=el('button',{onClick:()=>{download('/waitlist/csv','waitlist.csv');}},'Export Waitlist CSV');
+    content.appendChild(btn1);content.appendChild(el('div',{style:'height:8px'}));content.appendChild(btn2);
+  }
+
+  document.getElementById('tab-orders').addEventListener('click', async ()=>{setActive('orders');await loadStats();await showOrders();});
+  document.getElementById('tab-waitlist').addEventListener('click', async ()=>{setActive('waitlist');await loadStats();await showWaitlist();});
+  document.getElementById('tab-export').addEventListener('click', async ()=>{setActive('export');await loadStats();showExport();});
+
+  function setActive(name){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');}
+
+  // initial load
+  await loadStats();
+  await showOrders();
+}
+
+// Boot
+if(localStorage.getItem('pv_admin_token')){showDashboard();}else{showLogin();}
+</script>
+</body>
+</html>
