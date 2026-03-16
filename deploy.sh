@@ -36,10 +36,10 @@ echo "============================================"
 echo ""
 
 # -----------------------------------------------------------
-# 1. System update
+# 1. System update (update package lists only — skip upgrade to avoid kernel issues)
 # -----------------------------------------------------------
-log "Updating system packages..."
-sudo apt update -qq && sudo apt upgrade -y -qq
+log "Updating package lists..."
+sudo apt update -qq 2>/dev/null || warn "apt update had warnings (non-fatal)"
 
 # -----------------------------------------------------------
 # 2. Install Node.js 20
@@ -57,7 +57,7 @@ fi
 # 3. Install build tools (for better-sqlite3 native compilation)
 # -----------------------------------------------------------
 log "Installing build tools..."
-sudo apt install -y -qq build-essential python3 git
+sudo apt install -y -qq --no-upgrade build-essential python3 git 2>/dev/null || warn "Some build tools may need manual install"
 
 # -----------------------------------------------------------
 # 4. Install PM2
@@ -95,9 +95,10 @@ cd "$INSTALL_DIR"
 npm install --production
 
 # -----------------------------------------------------------
-# 7. Create data directory
+# 7. Create data directories
 # -----------------------------------------------------------
 mkdir -p "$INSTALL_DIR/data"
+mkdir -p "$INSTALL_DIR/server/db"
 
 # -----------------------------------------------------------
 # 8. Create .env if not exists
