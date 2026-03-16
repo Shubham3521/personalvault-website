@@ -4,152 +4,755 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Add Shipping Address — PersonalVault</title>
-  <link rel="stylesheet" href="css/style.css?v=20260312">
+  <meta name="description" content="Confirm your shipping details for your PersonalVault pre-order.">
+  <meta name="robots" content="noindex,nofollow">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css?v=20260316">
+  <link rel="icon" href="logo.png" type="image/png">
+
   <style>
-    :root{ --midnight:#0D1B2A; --navy:#1B263B; --saffron:#E65100; --teal:#00BFA5; }
-    body{ background:linear-gradient(180deg,var(--midnight),var(--navy)); color:#e6eef6; font-family:Inter,system-ui,Arial; padding:20px }
-    .card{ max-width:720px;margin:20px auto;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);padding:20px;border-radius:10px }
-    .logo-row{ display:flex;justify-content:space-between;align-items:center;margin-bottom:12px }
-    .progress{ font-size:13px;color:#9fb6cc;margin-bottom:12px }
-    .muted{ color:#9fb6cc }
-    input,select,textarea{ width:100%;padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;margin-top:6px }
-    .btn{ display:inline-block;padding:10px 14px;border-radius:8px;background:var(--saffron);color:#fff;text-decoration:none;font-weight:600 }
-    .btn-ghost{ background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit }
-    .row{ display:flex;gap:12px }
-    .col{ flex:1 }
-    @media(max-width:600px){ .row{ flex-direction:column } }
-    .otp-input{ letter-spacing:6px;font-size:20px;text-align:center }
+    /* ── Page layout ── */
+    .shipping-main {
+      min-height: 100vh;
+      padding: 80px 0 96px;
+      position: relative;
+    }
+
+    /* Background orb */
+    .shipping-bg-orb {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .shipping-bg-orb::before {
+      content: '';
+      position: absolute;
+      width: 700px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(249,115,22,0.08) 0%, transparent 70%);
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      filter: blur(60px);
+    }
+
+    /* ── Card wrapper ── */
+    .shipping-card {
+      max-width: 640px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 40px 40px 48px;
+      position: relative;
+      z-index: 1;
+      box-shadow: var(--shadow-lg);
+    }
+
+    @media (max-width: 680px) {
+      .shipping-card { padding: 28px 20px 36px; border-radius: var(--radius-lg); }
+    }
+
+    /* ── Progress bar ── */
+    .progress-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 36px;
+    }
+
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      position: relative;
+    }
+
+    .progress-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      width: 100%;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      z-index: 0;
+    }
+
+    .progress-step.done::after,
+    .progress-step.active::after {
+      background: var(--teal);
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      z-index: 1;
+      transition: all var(--transition-base);
+    }
+
+    .progress-step.active .step-dot {
+      background: rgba(45,212,191,0.15);
+      border-color: var(--teal);
+      color: var(--teal);
+      box-shadow: 0 0 16px rgba(45,212,191,0.2);
+    }
+
+    .progress-step.done .step-dot {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #0A1628;
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .progress-step.active .step-label { color: var(--teal); }
+    .progress-step.done .step-label { color: var(--text-secondary); }
+
+    /* ── Order summary badge ── */
+    .order-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(249,115,22,0.08);
+      border: 1px solid rgba(249,115,22,0.2);
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      font-size: 13px;
+      color: var(--saffron);
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    /* ── Form styles ── */
+    .form-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-tertiary);
+      margin-bottom: 16px;
+      margin-top: 28px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .form-row .form-group { flex: 1; }
+
+    @media (max-width: 540px) {
+      .form-row { flex-direction: column; gap: 0; }
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 7px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 14px;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: rgba(45,212,191,0.5);
+      box-shadow: 0 0 0 3px rgba(45,212,191,0.08);
+    }
+
+    .form-group input:disabled,
+    .form-group select:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .form-group input::placeholder { color: var(--text-tertiary); }
+
+    /* OTP input */
+    .otp-input {
+      letter-spacing: 8px;
+      font-size: 22px;
+      text-align: center;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Info row ── */
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+    }
+
+    .info-row-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 2px;
+    }
+
+    .info-row-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-white);
+    }
+
+    .info-row-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    /* ── Verified badge ── */
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(45,212,191,0.1);
+      border: 1px solid rgba(45,212,191,0.25);
+      border-radius: var(--radius-full);
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--teal);
+      margin-left: 8px;
+    }
+
+    /* ── Action bar ── */
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Success state ── */
+    .success-illustration {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(45,212,191,0.12);
+      border: 1px solid rgba(45,212,191,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 24px;
+      box-shadow: 0 0 32px rgba(45,212,191,0.15);
+    }
+
+    .success-details {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+
+    .success-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 14px;
+    }
+
+    .success-detail-row:last-child { border-bottom: none; }
+    .success-detail-row span:first-child { color: var(--text-tertiary); }
+    .success-detail-row span:last-child { color: var(--text-white); font-weight: 500; }
+
+    /* ── Error state ── */
+    .error-state {
+      text-align: center;
+      padding: 48px 0;
+    }
+
+    .error-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Resend link ── */
+    .resend-link {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-top: 12px;
+    }
+
+    .resend-link button {
+      background: none;
+      border: none;
+      color: var(--teal);
+      cursor: pointer;
+      font-size: 13px;
+      padding: 0;
+      font-family: inherit;
+      transition: color var(--transition-fast);
+    }
+
+    .resend-link button:hover { color: var(--text-white); }
+
+    /* ── Note ── */
+    .form-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 12px 16px;
+      background: rgba(249,115,22,0.05);
+      border: 1px solid rgba(249,115,22,0.15);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 12px;
+    }
+
+    .form-note-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="logo-row">
-      <div style="display:flex;align-items:center;gap:12px">
-        <img src="logo.png" alt="PersonalVault" style="height:36px">
-        <strong>PersonalVault</strong>
-      </div>
-      <nav><a href="mailto:support@personalvault.in" class="muted">Support</a></nav>
+
+  <!-- Background orb -->
+  <div class="shipping-bg-orb" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo-link" aria-label="PersonalVault home">
+        <img src="logo.png" alt="PersonalVault" class="logo">
+        <span class="logo-text">PersonalVault</span>
+      </a>
+      <nav aria-label="Support navigation">
+        <a href="mailto:support@personalvault.in">Support</a>
+        <a href="faq.html">FAQ</a>
+      </nav>
     </div>
+  </header>
 
-    <div id="content">
-      <div class="progress" id="progress">Step 1 of 3 — Verify email</div>
-      <h2 id="heading">Verify your email</h2>
-      <p class="muted" id="summary">Loading order…</p>
-
-      <div id="step-email">
-        <p>Email: <strong id="email-mask"></strong> <span id="email-status" style="margin-left:8px"></span></p>
-        <div style="margin-top:8px">
-          <button id="send-otp" class="btn">Send verification code</button>
-        </div>
-        <div id="otp-area" style="margin-top:12px;display:none">
-          <label class="muted">Enter 6-digit code</label>
-          <input id="otp-input" class="otp-input" maxlength="6" placeholder="______">
-          <div style="margin-top:8px">
-            <button id="confirm-otp" class="btn">Verify email</button>
+  <main class="shipping-main">
+    <div class="container">
+      <div class="shipping-card" data-aos="fade-up" data-aos-duration="500">
+        <div id="app-root">
+          <!-- Injected by JS -->
+          <div class="error-state">
+            <div class="error-icon">⏳</div>
+            <p class="subhead" style="font-size:15px;">Loading your order…</p>
           </div>
         </div>
       </div>
-
-      <div id="step-phone" style="margin-top:18px;display:none">
-        <div class="muted">Phone (from payment)</div>
-        <div><strong id="phone-mask"></strong></div>
-        <div style="margin-top:6px;color:#9fb6cc;font-size:13px">SMS not available — phone shown for reference.</div>
-      </div>
-
-      <div id="step-address" style="margin-top:18px;display:none">
-        <h3>Shipping address</h3>
-        <form id="address-form">
-          <div class="row">
-            <div class="col"><label>Full name</label><input id="full_name" name="full_name" required></div>
-          </div>
-          <label>Address line 1</label>
-          <input id="address1" name="address1" required>
-          <label>Address line 2</label>
-          <input id="address2" name="address2">
-          <div class="row">
-            <div class="col"><label>City</label><input id="city" name="city" required></div>
-            <div class="col"><label>State</label><select id="state" name="state" required></select></div>
-          </div>
-          <div class="row" style="margin-top:8px">
-            <div class="col"><label>PIN Code</label><input id="pincode" name="pincode" required pattern="[0-9]{6}"></div>
-            <div class="col"><label>Country</label><input id="country" name="country" value="India" disabled></div>
-          </div>
-          <div style="margin-top:12px">
-            <button type="submit" class="btn">Save address</button>
-          </div>
-        </form>
-      </div>
-
-      <div id="success" style="display:none;margin-top:12px">
-        <h3>Address saved!</h3>
-        <p>We'll ship your PersonalVault to this address. Expected delivery: June 2026.</p>
-        <p style="margin-top:10px"><a id="back-home" class="btn-ghost" href="index.html">Back to Home</a></p>
-      </div>
-
     </div>
-  </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo-area">
+          <a href="/" class="logo-link" aria-label="PersonalVault home">
+            <img src="logo.png" alt="PersonalVault" class="logo small">
+            <span class="logo-text">PersonalVault</span>
+          </a>
+          <div class="footer-tagline">Your photos. Your home. Your rules.</div>
+        </div>
+        <p class="footer-meta">© 2026 PersonalVault — Designed &amp; assembled in India 🇮🇳</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="faq.html">FAQ</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="mailto:support@personalvault.in">support@personalvault.in</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 500,
+      easing: 'ease-out-cubic',
+      once: true,
+      offset: 40,
+      disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    });
+  </script>
 
   <script>
+  (() => {
     const token = new URLSearchParams(window.location.search).get('token');
-    if(!token){ document.getElementById('content').innerHTML = '<p>Missing token. Please use the link we emailed you.'; }
+    const root  = document.getElementById('app-root');
     let orderData = null;
+    let currentStepIndex = 1; // 1=email, 2=phone, 3=address
 
-    function setStep(n){
-      document.getElementById('progress').textContent = n===1? 'Step 1 of 3 — Verify email' : n===2? 'Step 2 of 3 — Confirm phone' : 'Step 3 of 3 — Shipping address';
+    const STATES = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli and Daman and Diu","Lakshadweep","Delhi","Puducherry","Ladakh","Jammu and Kashmir"];
+
+    function authH() { return {}; }
+
+    // ── Render helpers ──────────────────────────────────────────
+    function renderProgress(step) {
+      const steps = ['Verify Email','Confirm Phone','Shipping Address'];
+      return `
+        <div class="progress-bar">
+          ${steps.map((label, i) => {
+            const n = i + 1;
+            const cls = n < step ? 'done' : n === step ? 'active' : '';
+            const dot = n < step ? '✓' : n;
+            return `<div class="progress-step ${cls}">
+              <div class="step-dot">${dot}</div>
+              <div class="step-label">${label}</div>
+            </div>`;
+          }).join('')}
+        </div>`;
     }
 
-    async function load(){
-      const res = await fetch('/api/shipping/'+token);
-      if(!res.ok){ document.getElementById('content').innerHTML = '<p>Link expired or invalid. Please contact support.</p>'; return; }
-      orderData = await res.json();
-      document.getElementById('summary').textContent = `Order ${orderData.short_id} — ₹${orderData.amountINR} — ${new Date(orderData.date).toDateString()}`;
-      document.getElementById('email-mask').textContent = orderData.email_masked;
-      document.getElementById('phone-mask').textContent = orderData.phone_masked;
-      document.getElementById('full_name').value = orderData.name || '';
-      if(orderData.email_verified){ document.getElementById('email-status').textContent = '✅ Verified'; showAddressStep(); }
+    function renderOrderBadge(o) {
+      if (!o) return '';
+      const date = o.date ? new Date(o.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}) : '';
+      return `<div class="order-badge">
+        <span>📦</span>
+        <span>Order ${o.short_id || ''} &nbsp;·&nbsp; ₹${o.amountINR || ''} &nbsp;·&nbsp; ${date}</span>
+      </div>`;
     }
 
-    document.getElementById('send-otp').addEventListener('click', async ()=>{
-      const res = await fetch('/api/shipping/'+token+'/verify-email', { method:'POST' });
-      if(res.ok){ document.getElementById('otp-area').style.display='block'; alert('OTP sent — check your email'); }
-      else{ const j = await res.json(); alert(j.error || 'Could not send OTP'); }
-    });
+    // ── Step 1: Email verification ───────────────────────────────
+    function renderStep1(emailMasked, otpVisible = false, verified = false) {
+      root.innerHTML = `
+        ${renderProgress(1)}
+        ${renderOrderBadge(orderData)}
+        <h2 style="margin-bottom:8px;">Verify your email</h2>
+        <p class="subhead" style="font-size:15px;margin-bottom:28px;">We'll send a 6-digit code to confirm your identity.</p>
+        <div class="info-row">
+          <span class="info-row-icon">✉️</span>
+          <div>
+            <div class="info-row-label">Email address</div>
+            <div class="info-row-value" id="email-display">
+              ${emailMasked}
+              ${verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
+            </div>
+          </div>
+        </div>
+        ${!verified ? `
+          <div class="action-bar" id="send-otp-row" style="margin-top:16px;${otpVisible ? 'display:none' : ''}">
+            <button class="btn primary" id="send-otp-btn">Send verification code →</button>
+          </div>
+          <div id="otp-section" style="${otpVisible ? '' : 'display:none'}">
+            <div class="form-group" style="margin-top:16px;">
+              <label for="otp-input">Enter 6-digit code</label>
+              <input class="otp-input" id="otp-input" maxlength="6" placeholder="• • • • • •" autocomplete="one-time-code" inputmode="numeric">
+            </div>
+            <div class="action-bar">
+              <button class="btn primary" id="confirm-otp-btn">Verify email →</button>
+            </div>
+            <p class="resend-link">Didn't get the code? <button id="resend-btn">Resend</button></p>
+          </div>
+        ` : `
+          <div class="action-bar" style="margin-top:16px;">
+            <button class="btn primary" id="to-phone-btn">Continue to shipping →</button>
+          </div>
+        `}
+      `;
 
-    document.getElementById('confirm-otp').addEventListener('click', async ()=>{
-      const otp = document.getElementById('otp-input').value;
-      const res = await fetch('/api/shipping/'+token+'/confirm-email', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({ otp }) });
-      if(res.ok){ document.getElementById('email-status').textContent = '✅ Verified'; document.getElementById('otp-area').style.display='none'; showAddressStep(); }
-      else{ const j = await res.json(); alert(j.error || 'Could not verify OTP'); }
-    });
-
-    function showAddressStep(){
-      document.getElementById('step-phone').style.display='block';
-      document.getElementById('step-address').style.display='block';
-      setStep(3);
+      document.getElementById('send-otp-btn')?.addEventListener('click', handleSendOtp);
+      document.getElementById('confirm-otp-btn')?.addEventListener('click', handleConfirmOtp);
+      document.getElementById('resend-btn')?.addEventListener('click', handleSendOtp);
+      document.getElementById('to-phone-btn')?.addEventListener('click', () => renderStep2());
     }
 
-    document.getElementById('address-form').addEventListener('submit', async (e)=>{
+    async function handleSendOtp() {
+      const btn = document.getElementById('send-otp-btn') || document.getElementById('resend-btn');
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      try {
+        const res = await fetch('/api/shipping/' + token + '/verify-email', { method: 'POST' });
+        if (res.ok) {
+          const row = document.getElementById('send-otp-row');
+          const sec = document.getElementById('otp-section');
+          if (row) row.style.display = 'none';
+          if (sec) sec.style.display = '';
+        } else {
+          const j = await res.json();
+          alert(j.error || 'Could not send code');
+          if (btn) { btn.disabled = false; btn.textContent = 'Send verification code →'; }
+        }
+      } catch(e) {
+        alert('Network error. Please try again.');
+        if (btn) { btn.disabled = false; btn.textContent = 'Send verification code →'; }
+      }
+    }
+
+    async function handleConfirmOtp() {
+      const otp = document.getElementById('otp-input')?.value?.trim();
+      if (!otp || otp.length < 6) { alert('Please enter the full 6-digit code.'); return; }
+      const btn = document.getElementById('confirm-otp-btn');
+      if (btn) { btn.disabled = true; btn.textContent = 'Verifying…'; }
+      try {
+        const res = await fetch('/api/shipping/' + token + '/confirm-email', {
+          method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ otp })
+        });
+        if (res.ok) { renderStep2(); }
+        else {
+          const j = await res.json();
+          alert(j.error || 'Incorrect code. Please try again.');
+          if (btn) { btn.disabled = false; btn.textContent = 'Verify email →'; }
+        }
+      } catch(e) {
+        alert('Network error. Please try again.');
+        if (btn) { btn.disabled = false; btn.textContent = 'Verify email →'; }
+      }
+    }
+
+    // ── Step 2: Phone confirmation ────────────────────────────────
+    function renderStep2() {
+      currentStepIndex = 2;
+      root.innerHTML = `
+        ${renderProgress(2)}
+        ${renderOrderBadge(orderData)}
+        <h2 style="margin-bottom:8px;">Confirm your phone</h2>
+        <p class="subhead" style="font-size:15px;margin-bottom:28px;">Your phone number from the order is shown below.</p>
+        <div class="info-row">
+          <span class="info-row-icon">📱</span>
+          <div>
+            <div class="info-row-label">Phone number (from payment)</div>
+            <div class="info-row-value">${orderData?.phone_masked || '—'}</div>
+          </div>
+        </div>
+        <div class="form-note">
+          <span class="form-note-icon">ℹ️</span>
+          <span>SMS verification is not available yet. Your phone number is shown for reference only.</span>
+        </div>
+        <div class="action-bar">
+          <button class="btn primary" id="to-addr-btn">Add shipping address →</button>
+        </div>
+      `;
+      document.getElementById('to-addr-btn').addEventListener('click', renderStep3);
+    }
+
+    // ── Step 3: Address form ──────────────────────────────────────
+    function renderStep3() {
+      currentStepIndex = 3;
+      const prefillName = orderData?.name || '';
+      const stateOptions = STATES.map(s => `<option value="${s}">${s}</option>`).join('');
+      root.innerHTML = `
+        ${renderProgress(3)}
+        ${renderOrderBadge(orderData)}
+        <h2 style="margin-bottom:8px;">Shipping address</h2>
+        <p class="subhead" style="font-size:15px;margin-bottom:28px;">Where should we deliver your PersonalVault?</p>
+        <form id="address-form" novalidate>
+          <div class="form-group">
+            <label for="full_name">Full name</label>
+            <input id="full_name" name="full_name" type="text" required autocomplete="name" value="${prefillName}" placeholder="Rahul Sharma">
+          </div>
+          <div class="form-group">
+            <label for="address1">Address line 1</label>
+            <input id="address1" name="address1" type="text" required autocomplete="address-line1" placeholder="House/Flat no., Street name">
+          </div>
+          <div class="form-group">
+            <label for="address2">Address line 2 <span style="color:var(--text-tertiary);font-weight:400;">(optional)</span></label>
+            <input id="address2" name="address2" type="text" autocomplete="address-line2" placeholder="Area, Landmark">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City</label>
+              <input id="city" name="city" type="text" required autocomplete="address-level2" placeholder="Mumbai">
+            </div>
+            <div class="form-group">
+              <label for="state">State</label>
+              <select id="state" name="state" required autocomplete="address-level1">
+                <option value="">Select state…</option>
+                ${stateOptions}
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pincode">PIN Code</label>
+              <input id="pincode" name="pincode" type="text" required pattern="[0-9]{6}" maxlength="6" inputmode="numeric" autocomplete="postal-code" placeholder="400001">
+            </div>
+            <div class="form-group">
+              <label for="country">Country</label>
+              <input id="country" name="country" type="text" value="India" disabled autocomplete="country-name">
+            </div>
+          </div>
+          <div class="action-bar">
+            <button type="submit" class="btn primary large" id="save-addr-btn">Save address &amp; confirm →</button>
+          </div>
+        </form>
+        <div class="form-note" style="margin-top:20px;">
+          <span class="form-note-icon">🔒</span>
+          <span>Your address is stored securely and only used for shipping your order.</span>
+        </div>
+      `;
+
+      document.getElementById('address-form').addEventListener('submit', handleSaveAddress);
+    }
+
+    async function handleSaveAddress(e) {
       e.preventDefault();
+      const btn = document.getElementById('save-addr-btn');
       const data = {
-        full_name: document.getElementById('full_name').value,
-        address1: document.getElementById('address1').value,
-        address2: document.getElementById('address2').value,
-        city: document.getElementById('city').value,
-        state: document.getElementById('state').value,
-        pincode: document.getElementById('pincode').value,
-        country: document.getElementById('country').value,
+        full_name: document.getElementById('full_name').value.trim(),
+        address1:  document.getElementById('address1').value.trim(),
+        address2:  document.getElementById('address2').value.trim(),
+        city:      document.getElementById('city').value.trim(),
+        state:     document.getElementById('state').value,
+        pincode:   document.getElementById('pincode').value.trim(),
+        country:   'India',
       };
-      const res = await fetch('/api/shipping/'+token+'/address', { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(data) });
-      if(res.ok){ document.getElementById('step-address').style.display='none'; document.getElementById('success').style.display='block'; }
-      else{ const j = await res.json(); alert(j.error || 'Could not save address'); }
-    });
 
-    // populate states
-    const states = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli and Daman and Diu","Lakshadweep","Delhi","Puducherry","Ladakh","Jammu and Kashmir"];
-    const sel = document.getElementById('state');
-    states.forEach(s=>{ const o = document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o); });
+      if (!data.full_name || !data.address1 || !data.city || !data.state || !data.pincode) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      if (!/^[0-9]{6}$/.test(data.pincode)) {
+        alert('Please enter a valid 6-digit PIN code.');
+        return;
+      }
 
-    load().catch(()=>{ document.getElementById('content').innerHTML = '<p>Could not load order. Please contact support.</p>'; });
+      if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+      try {
+        const res = await fetch('/api/shipping/' + token + '/address', {
+          method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
+        });
+        if (res.ok) { renderSuccess(data); }
+        else {
+          const j = await res.json();
+          alert(j.error || 'Could not save address. Please try again.');
+          if (btn) { btn.disabled = false; btn.textContent = 'Save address & confirm →'; }
+        }
+      } catch(e) {
+        alert('Network error. Please try again.');
+        if (btn) { btn.disabled = false; btn.textContent = 'Save address & confirm →'; }
+      }
+    }
+
+    // ── Success ───────────────────────────────────────────────────
+    function renderSuccess(addr) {
+      root.innerHTML = `
+        <div style="text-align:center;">
+          <div class="success-illustration">✓</div>
+          <div class="eyebrow" style="justify-content:center;">All done!</div>
+          <h2 style="margin-bottom:12px;">Address confirmed</h2>
+          <p class="subhead" style="font-size:15px;margin:0 auto 24px;">
+            We have your shipping details. Your PersonalVault is on its way in June 2026!
+          </p>
+        </div>
+        <div class="success-details">
+          <div class="success-detail-row">
+            <span>Deliver to</span>
+            <span>${addr.full_name}</span>
+          </div>
+          <div class="success-detail-row">
+            <span>Address</span>
+            <span>${[addr.address1, addr.address2, addr.city].filter(Boolean).join(', ')}</span>
+          </div>
+          <div class="success-detail-row">
+            <span>State / PIN</span>
+            <span>${addr.state} — ${addr.pincode}</span>
+          </div>
+          <div class="success-detail-row">
+            <span>Expected delivery</span>
+            <span style="color:var(--teal);">June 2026</span>
+          </div>
+        </div>
+        <div class="action-bar" style="justify-content:center;">
+          <a href="/" class="btn ghost">← Back to home</a>
+          <a href="faq.html" class="btn primary">View FAQ</a>
+        </div>
+        <p class="note" style="text-align:center;margin-top:20px;">
+          Questions? Email <a href="mailto:support@personalvault.in">support@personalvault.in</a>
+        </p>
+      `;
+    }
+
+    // ── Error ─────────────────────────────────────────────────────
+    function renderError(msg) {
+      root.innerHTML = `
+        <div class="error-state">
+          <div class="error-icon">🔗</div>
+          <h2 style="margin-bottom:12px;">Link unavailable</h2>
+          <p class="subhead" style="font-size:15px;max-width:420px;margin:0 auto 28px;">${msg}</p>
+          <a href="mailto:support@personalvault.in" class="btn primary">Contact Support</a>
+        </div>
+      `;
+    }
+
+    // ── Boot ──────────────────────────────────────────────────────
+    async function boot() {
+      if (!token) { renderError('Missing verification token. Please use the link we emailed you.'); return; }
+      try {
+        const res = await fetch('/api/shipping/' + token);
+        if (!res.ok) { renderError('This link has expired or is invalid. Please contact support.'); return; }
+        orderData = await res.json();
+        if (orderData.email_verified) {
+          renderStep2();
+        } else {
+          renderStep1(orderData.email_masked, false, false);
+        }
+      } catch(e) {
+        renderError('Could not load your order. Check your connection and try again.');
+      }
+    }
+
+    boot();
+  })();
   </script>
 </body>
 </html>

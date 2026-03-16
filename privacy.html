@@ -1,59 +1,450 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Privacy Policy — PersonalVault</title>
+  <meta name="description" content="PersonalVault privacy policy — your photos never leave your home. No data collection, no tracking, no cloud storage.">
+  <link rel="canonical" href="https://personalvault.in/privacy.html">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css?v=20260316">
+  <link rel="icon" href="logo.png" type="image/png">
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #080A12; color: #fff; min-height: 100vh; }
-    .glow-blue { position: fixed; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(66,133,244,0.10) 0%, transparent 70%); top: 40%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
-    nav { padding: 20px 40px; }
-    .logo-text { font-size: 20px; font-weight: 700; background: linear-gradient(90deg, #EA4335, #FBBC05, #34A853, #4285F4, #A142F4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
-    .content { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; position: relative; z-index: 10; }
-    h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
-    .updated { color: rgba(255,255,255,0.4); font-size: 14px; margin-bottom: 40px; }
-    h2 { font-size: 1.1rem; font-weight: 700; margin: 32px 0 12px; color: #82B1FF; }
-    p { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.7); margin-bottom: 16px; }
-    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; }
-    th { text-align: left; padding: 10px 14px; background: rgba(255,255,255,0.06); font-size: 13px; color: rgba(255,255,255,0.5); }
-    td { padding: 12px 14px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 14px; color: rgba(255,255,255,0.7); }
-    a { color: #82B1FF; }
-    footer { text-align: center; padding: 24px; color: rgba(255,255,255,0.3); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.06); }
+    /* ── Privacy page layout ── */
+    .privacy-main {
+      padding: 80px 0 96px;
+    }
+
+    .privacy-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    /* ── Hero area ── */
+    .privacy-hero {
+      margin-bottom: 64px;
+      text-align: center;
+    }
+
+    .privacy-hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      margin-bottom: 14px;
+    }
+
+    .privacy-updated {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-full);
+      padding: 5px 14px;
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-bottom: 24px;
+    }
+
+    /* ── TL;DR summary cards ── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 64px;
+    }
+
+    .summary-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px;
+      text-align: center;
+      transition: border-color var(--transition-base), transform var(--transition-base);
+    }
+
+    .summary-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-2px);
+    }
+
+    .summary-card-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .summary-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 5px;
+    }
+
+    .summary-card-body {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      line-height: 1.5;
+    }
+
+    /* ── Section blocks ── */
+    .policy-section {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .policy-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .policy-section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    .policy-section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .policy-section p {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .policy-section p:last-child { margin-bottom: 0; }
+
+    .policy-section a {
+      color: var(--teal);
+      text-decoration: underline;
+      text-decoration-color: rgba(45,212,191,0.3);
+      text-underline-offset: 3px;
+      transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+    }
+
+    .policy-section a:hover {
+      color: var(--text-white);
+      text-decoration-color: rgba(255,255,255,0.4);
+    }
+
+    /* ── Permissions table ── */
+    .perm-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 0;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .perm-table thead th {
+      text-align: left;
+      padding: 12px 18px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-tertiary);
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .perm-table tbody td {
+      padding: 14px 18px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      line-height: 1.5;
+    }
+
+    .perm-table tbody tr:last-child td { border-bottom: none; }
+
+    .perm-table tbody tr:hover td { background: rgba(255,255,255,0.015); }
+
+    .perm-name {
+      font-weight: 600;
+      color: var(--text-white);
+      white-space: nowrap;
+    }
+
+    .perm-icon {
+      margin-right: 6px;
+      font-size: 15px;
+    }
+
+    /* ── Contact card ── */
+    .contact-card {
+      background: rgba(45,212,191,0.05);
+      border: 1px solid rgba(45,212,191,0.15);
+      border-radius: var(--radius-xl);
+      padding: 40px 36px;
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    .contact-card h2 { font-size: 22px; margin-bottom: 10px; }
+    .contact-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .perm-table { display: block; overflow-x: auto; }
+    }
   </style>
 </head>
 <body>
-  <div class="glow-blue"></div>
-  <nav><a class="logo-text" href="index.html">PersonalVault</a></nav>
-  <div class="content">
-    <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: March 10, 2026</p>
 
-    <h2>Overview</h2>
-    <p>PersonalVault is a self-hosted photo and video backup application. We do not collect, store, or transmit any personal data to third parties. All data is stored exclusively on your own device and your own self-hosted server.</p>
+  <!-- Navbar -->
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo-link" aria-label="PersonalVault home">
+        <img src="logo.png" alt="PersonalVault" class="logo">
+        <span class="logo-text">PersonalVault</span>
+      </a>
+      <button class="hamburger" aria-expanded="false" aria-label="Open navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="Primary navigation">
+        <a href="/#features">Features</a>
+        <a href="/#how-it-works">How it works</a>
+        <a href="faq.html">FAQ</a>
+        <a href="/#pricing" class="cta secondary">Reserve Now →</a>
+      </nav>
+    </div>
+  </header>
 
-    <h2>What the App Accesses</h2>
-    <table>
-      <tr><th>Permission</th><th>Purpose</th></tr>
-      <tr><td>Photo Library</td><td>To back up your photos and videos to your server</td></tr>
-      <tr><td>Camera</td><td>For QR code scanning during login</td></tr>
-      <tr><td>Network</td><td>To connect to your self-hosted PersonalVault server</td></tr>
-      <tr><td>Notifications</td><td>To notify you of backup status</td></tr>
-      <tr><td>Background Refresh</td><td>To run automatic backups in the background</td></tr>
-    </table>
+  <main class="privacy-main">
+    <div class="container privacy-wrapper">
 
-    <h2>Data Collection</h2>
-    <p>PersonalVault does not collect any personal data. Your photos, videos, login credentials, and server information are stored only on your device and your own server. We have no access to your data.</p>
+      <!-- Hero -->
+      <div class="privacy-hero" data-aos="fade-up">
+        <div class="eyebrow" style="justify-content:center;">Legal</div>
+        <h1>Privacy Policy</h1>
+        <div class="privacy-updated">📅 Last updated: March 10, 2026</div>
+        <p class="subhead" style="margin:0 auto;">
+          We built PersonalVault on one principle: your data is yours.
+          No cloud, no tracking, no surprises.
+        </p>
+      </div>
 
-    <h2>Analytics & Tracking</h2>
-    <p>PersonalVault contains no analytics, tracking, or advertising SDKs. We do not track your usage in any way.</p>
+      <!-- TL;DR Summary -->
+      <div class="summary-grid" data-aos="fade-up" data-aos-delay="60">
+        <div class="summary-card">
+          <span class="summary-card-icon">🏠</span>
+          <div class="summary-card-title">Stays at home</div>
+          <div class="summary-card-body">Your photos live on your hardware, not our servers</div>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card-icon">🚫</span>
+          <div class="summary-card-title">Zero tracking</div>
+          <div class="summary-card-body">No analytics, no ads, no usage data collected</div>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card-icon">🔒</span>
+          <div class="summary-card-title">Encrypted</div>
+          <div class="summary-card-body">End-to-end encrypted relay — we route, never store</div>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card-icon">👁️</span>
+          <div class="summary-card-title">We can't see it</div>
+          <div class="summary-card-body">Physically impossible for us to access your photos</div>
+        </div>
+      </div>
 
-    <h2>Your Server</h2>
-    <p>PersonalVault connects only to the server URL you configure. We do not operate or control any servers. Your data goes directly from your device to your server.</p>
+      <!-- Overview -->
+      <div class="policy-section" data-aos="fade-up">
+        <div class="policy-section-label">01 — Overview</div>
+        <h2>The short version</h2>
+        <p>
+          PersonalVault is a self-hosted photo and video backup device.
+          We do not collect, store, or transmit any personal data to third parties.
+          All data is stored exclusively on your own device in your own home.
+        </p>
+        <p>
+          When you use the PersonalVault app, your photos travel encrypted from your phone directly to the device you physically own.
+          That device lives on your home network. We provide the software and, optionally, an encrypted relay for remote access —
+          but we never see, read, or store your photos.
+        </p>
+      </div>
 
-    <h2>Contact</h2>
-    <p>For questions about this privacy policy, contact: <a href="mailto:shubham@homenas.app">shubham@homenas.app</a></p>
-  </div>
-  <footer>© 2026 PersonalVault</footer>
+      <!-- App permissions -->
+      <div class="policy-section" data-aos="fade-up">
+        <div class="policy-section-label">02 — App Permissions</div>
+        <h2>What the app accesses and why</h2>
+        <p>The PersonalVault mobile app requests the following permissions:</p>
+        <table class="perm-table">
+          <thead>
+            <tr>
+              <th>Permission</th>
+              <th>Why we need it</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="perm-icon">🖼️</span><span class="perm-name">Photo Library</span></td>
+              <td>To back up your photos and videos to your personal device</td>
+            </tr>
+            <tr>
+              <td><span class="perm-icon">📷</span><span class="perm-name">Camera</span></td>
+              <td>For QR code scanning during initial setup and login</td>
+            </tr>
+            <tr>
+              <td><span class="perm-icon">📶</span><span class="perm-name">Network access</span></td>
+              <td>To connect to your self-hosted PersonalVault device</td>
+            </tr>
+            <tr>
+              <td><span class="perm-icon">🔔</span><span class="perm-name">Notifications</span></td>
+              <td>To notify you of backup status and completion</td>
+            </tr>
+            <tr>
+              <td><span class="perm-icon">⏱️</span><span class="perm-name">Background refresh</span></td>
+              <td>To run automatic backups in the background (iOS)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Data collection -->
+      <div class="policy-section" data-aos="fade-up">
+        <div class="policy-section-label">03 — Data Collection</div>
+        <h2>We collect nothing</h2>
+        <p>
+          PersonalVault does not collect any personal data.
+          Your photos, videos, login credentials, and server information are stored only on your phone and your own PersonalVault device.
+          We have zero access to any of this data.
+        </p>
+        <p>
+          We do not log usage metrics, session data, or any information about what you store or how you use the app.
+          There are no analytics SDKs, crash reporters, or advertising frameworks embedded in our software.
+        </p>
+      </div>
+
+      <!-- Analytics -->
+      <div class="policy-section" data-aos="fade-up">
+        <div class="policy-section-label">04 — Analytics &amp; Tracking</div>
+        <h2>Zero analytics, zero tracking</h2>
+        <p>
+          PersonalVault contains no analytics SDKs (no Firebase Analytics, no Amplitude, no Mixpanel),
+          no advertising frameworks, and no crash reporting services that transmit data off-device.
+        </p>
+        <p>
+          We do not track your usage patterns, feature usage, navigation, or behavior in any way.
+          Your activity within the app stays entirely on your device.
+        </p>
+      </div>
+
+      <!-- Remote access -->
+      <div class="policy-section" data-aos="fade-up">
+        <div class="policy-section-label">05 — Remote Access</div>
+        <h2>How remote access works</h2>
+        <p>
+          When you access your photos away from home, the PersonalVault app uses an encrypted relay tunnel
+          to route the connection between your phone and your device.
+          This relay is solely a transport mechanism — we route the encrypted packets, but we never decrypt, inspect, or store them.
+        </p>
+        <p>
+          Think of it like a private postal service that delivers sealed envelopes.
+          We deliver the envelope; we have no idea what's inside and no way to open it.
+        </p>
+      </div>
+
+      <!-- Your device -->
+      <div class="policy-section" data-aos="fade-up">
+        <div class="policy-section-label">06 — Your Hardware</div>
+        <h2>Your device, your control</h2>
+        <p>
+          PersonalVault connects only to the server URL you configure — the IP address of your physical device.
+          We do not operate or control your device. It's your hardware, running in your home, under your control.
+        </p>
+        <p>
+          Even if PersonalVault as a company ceased to exist, your photos would remain safely on the hardware you own.
+          The device runs open-source software and continues to work completely independently.
+        </p>
+      </div>
+
+      <!-- Changes -->
+      <div class="policy-section" data-aos="fade-up">
+        <div class="policy-section-label">07 — Changes</div>
+        <h2>Policy updates</h2>
+        <p>
+          We may update this privacy policy from time to time. When we do, we'll update the "Last updated" date at the top of this page.
+          For material changes, we'll send an email to registered users.
+          Continued use of PersonalVault after a change constitutes acceptance of the revised policy.
+        </p>
+      </div>
+
+      <!-- Contact -->
+      <div class="contact-card" data-aos="fade-up">
+        <div class="eyebrow" style="justify-content:center;">Questions?</div>
+        <h2>Get in touch</h2>
+        <p>
+          Have questions about this privacy policy or how we handle data?<br>
+          We're happy to answer — just reach out.
+        </p>
+        <a href="mailto:support@personalvault.in" class="btn primary large">
+          support@personalvault.in →
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo-area">
+          <a href="/" class="logo-link" aria-label="PersonalVault home">
+            <img src="logo.png" alt="PersonalVault" class="logo small">
+            <span class="logo-text">PersonalVault</span>
+          </a>
+          <div class="footer-tagline">Your photos. Your home. Your rules.</div>
+        </div>
+        <p class="footer-meta">© 2026 PersonalVault — Designed &amp; assembled in India 🇮🇳</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="faq.html">FAQ</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="mailto:support@personalvault.in">support@personalvault.in</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 600,
+      easing: 'ease-out-cubic',
+      once: true,
+      offset: 60,
+      disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    });
+  </script>
+
+  <script src="js/main.js?v=20260316"></script>
 </body>
 </html>

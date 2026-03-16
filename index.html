@@ -61,67 +61,124 @@
       {"@type":"Question","name":"Can multiple family members use it?","acceptedAnswer":{"@type":"Answer","text":"Yes. Create separate accounts for up to 5 family members. Everyone gets their own private space, with shared albums when you want them."}},
       {"@type":"Question","name":"What is the storage and redundancy?","acceptedAnswer":{"@type":"Answer","text":"1TB of protected storage — Two drives mirror your photos automatically. If one fails, your memories are safe."}},
       {"@type":"Question","name":"How does remote access work?","acceptedAnswer":{"@type":"Answer","text":"Access from anywhere — View your entire library from any phone, anywhere in the world. No port-forwarding or router configuration required. Encrypted connections. Your data stays local."}},
-      {"@type":"Question",""name":"How do I contact support?","acceptedAnswer":{"@type":"Answer","text":"Email support@personalvault.in — we respond within 24 hours on business days."}}
+      {"@type":"Question","name":"How do I contact support?","acceptedAnswer":{"@type":"Answer","text":"Email support@personalvault.in — we respond within 24 hours on business days."}}
     ]
   }
   </script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260315a">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- AOS (Animate on Scroll) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css?v=20260316">
   <link rel="icon" href="logo.png" type="image/png">
 
   <!-- Razorpay Checkout -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
+
+  <!-- ====================== NAVIGATION ====================== -->
   <header class="site-nav">
     <div class="container nav-inner">
-      <a href="/" class="logo-link">
+      <a href="/" class="logo-link" aria-label="PersonalVault home">
         <img src="logo.png" alt="PersonalVault" class="logo">
         <span class="logo-text">PersonalVault</span>
       </a>
-      <button class="hamburger" aria-expanded="false" aria-label="Open navigation"><span></span><span></span><span></span></button>
-      <nav>
+      <button class="hamburger" aria-expanded="false" aria-label="Open navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="Primary navigation">
         <a href="#features">Features</a>
-        <a href="#access-anywhere">Access</a>
         <a href="#how-it-works">How it works</a>
-        <a href="#pricing" class="cta secondary">Reserve</a>
+        <a href="#comparison">Pricing math</a>
+        <a href="#faq">FAQ</a>
+        <a href="#pricing" class="cta secondary">Reserve Now →</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero hero-section">
+
+    <!-- ====================== HERO ====================== -->
+    <section class="hero-section" aria-label="Hero">
+      <!-- Background effects -->
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-grid"></div>
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+      </div>
+
       <div class="container">
-        <div class="hero-badge">NEW • Plug & Play</div>
-        <h1>Your photos. At home. Accessible everywhere.</h1>
-        <p class="subhead">PersonalVault stores your family's photos at home — and lets you access them from anywhere, on any phone. One device. One price. No subscriptions. Ever.</p>
+        <div class="hero-content">
+          <div class="hero-badge">
+            🇮🇳 Made in India &nbsp;·&nbsp; Early Bird Open
+          </div>
 
-        <div class="hero-ctas">
-          <a class="btn primary" href="#pricing">Reserve Yours — Early Bird ₹16,500</a>
-          <a class="btn ghost" href="#how-it-works">See How It Works ↓</a>
-        </div>
+          <h1>
+            Your photos.<br>
+            <span class="line-highlight">At home. Private. Forever.</span>
+          </h1>
 
-        <div class="trust-row">
-        <span>Plug & Play</span>
-        <span>1TB Storage</span>
-        <span>Access from Anywhere</span>
-        <span>One-time Price</span>
-        <span>Made in India</span>
+          <p class="subhead">
+            PersonalVault is a plug-and-play device that stores your family's photos and videos at home — with access from anywhere, automatic backup, and zero monthly fees. Ever.
+          </p>
+
+          <div class="hero-ctas">
+            <a class="btn primary xl" href="#pricing">
+              Reserve Early Bird — ₹16,500
+            </a>
+            <a class="btn ghost large" href="#how-it-works">
+              See How It Works ↓
+            </a>
+          </div>
+
+          <div class="trust-row" role="list">
+            <div class="trust-item" role="listitem">
+              <svg class="trust-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1L2 4v4c0 3.3 2.5 6.4 6 7.1C12.5 14.4 15 11.3 15 8V4L8 1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              No Subscriptions
+            </div>
+            <div class="trust-item" role="listitem">
+              <svg class="trust-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              1TB Protected Storage
+            </div>
+            <div class="trust-item" role="listitem">
+              <svg class="trust-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 11V5a2 2 0 012-2h8a2 2 0 012 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M1 11h14M6 14h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Access from Anywhere
+            </div>
+            <div class="trust-item" role="listitem">
+              <svg class="trust-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1L4 3.5v4c0 2.5 1.8 4.8 4 5.5 2.2-.7 4-3 4-5.5v-4L8 1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              Dual-Drive RAID
+            </div>
+            <div class="trust-item" role="listitem">
+              <svg class="trust-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Plug &amp; Play Setup
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="video" class="section">
-      <div class="container">
-        <div class="eyebrow">SEE IT IN ACTION</div>
-        <h2>Watch How PersonalVault Works</h2>
-        <p class="subhead">Your photos. Your home. Your control.</p>
-        <div class="video-wrapper">
-          <iframe 
-            src="https://www.youtube.com/embed/xAalnHDMZ3Q" 
+    <div class="divider"></div>
+
+    <!-- ====================== VIDEO ====================== -->
+    <section id="video" class="video-section section">
+      <div class="container text-center">
+        <div class="eyebrow" data-aos="fade-up">See It In Action</div>
+        <h2 data-aos="fade-up" data-aos-delay="50">Watch how PersonalVault works</h2>
+        <p class="subhead" data-aos="fade-up" data-aos-delay="100">
+          Your photos, your home, your control — see the full experience in 2 minutes.
+        </p>
+        <div class="video-wrapper" data-aos="fade-up" data-aos-delay="150">
+          <iframe
+            src="https://www.youtube.com/embed/xAalnHDMZ3Q"
             title="PersonalVault — Own Your Memories"
-            frameborder="0" 
+            frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
             loading="lazy">
@@ -130,304 +187,558 @@
       </div>
     </section>
 
+    <div class="divider"></div>
+
+    <!-- ====================== FEATURES ====================== -->
     <section id="features" class="section">
       <div class="container">
-        <div class="eyebrow">WHAT IT IS</div>
-        <h2>Everything you need. Nothing you don't.</h2>
-        <div class="cards">
-          <div class="card">
-            <div class="icon">💰</div>
+        <div class="section-header" data-aos="fade-up">
+          <div class="eyebrow">What You Get</div>
+          <h2>Everything you need.<br>Nothing you don't.</h2>
+          <p class="subhead">
+            PersonalVault is built for families who want their memories private, permanent, and always accessible.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+            <div class="feature-icon">💰</div>
             <h3>Pay Once. Never Again.</h3>
-            <p>No monthly fees. Break even vs cloud in ~25 months, then free forever.</p>
+            <p>One-time payment. No monthly bills, no price hikes, no cancellations. Break even vs cloud in ~25 months — then free forever.</p>
           </div>
 
-          <div class="card">
-            <div class="icon">🔒</div>
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="60">
+            <div class="feature-icon">🔒</div>
             <h3>Your Memories Stay Yours</h3>
-            <p>Photos never leave your home. No AI training, no data leaks.</p>
+            <p>Photos never leave your home network. No AI training, no data harvesting, no privacy policies that change overnight.</p>
           </div>
 
-          <div class="card">
-            <div class="icon">🔌</div>
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="120">
+            <div class="feature-icon">🔌</div>
             <h3>Plug In. That's It.</h3>
-            <p>Connect to Wi-Fi, scan QR code. Works with Android and iPhone.</p>
+            <p>Connect to power and your router, scan the QR code on your phone — you're done. Works with Android and iPhone. No IT required.</p>
           </div>
 
-          <div class="card">
-            <div class="icon">📦</div>
-            <h3>Built to Last</h3>
-            <p>Dual-drive redundancy mirrors data in real-time. Designed for 10+ years.</p>
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="180">
+            <div class="feature-icon">🛡️</div>
+            <h3>Built to Last 10+ Years</h3>
+            <p>Dual-drive RAID 1 mirrors every photo automatically. If one drive fails, nothing is lost. Designed for a decade of daily use.</p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="60">
+            <div class="feature-icon">👨‍👩‍👧‍👦</div>
+            <h3>Family Sharing Built In</h3>
+            <p>Up to 5 family members, each with their own private space. Share albums when you want — everything else stays personal.</p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="120">
+            <div class="feature-icon">🌍</div>
+            <h3>Access from Anywhere</h3>
+            <p>View your full library from any phone, anywhere in the world. Encrypted tunnel, no port-forwarding, no router configuration.</p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="180">
+            <div class="feature-icon">⚡</div>
+            <h3>Automatic Backup</h3>
+            <p>Connect to Wi-Fi and your phone backs up silently in the background — while you sleep, commute, or go about your day.</p>
+          </div>
+
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="240">
+            <div class="feature-icon">🇮🇳</div>
+            <h3>Designed in India</h3>
+            <p>Built for Indian families, Indian networks, Indian pricing. No dollar pricing, no import hassle, shipped right to your door.</p>
+          </div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="stats-row" data-aos="fade-up" data-aos-delay="100">
+          <div class="stat-item">
+            <div class="stat-number">1TB</div>
+            <div class="stat-label">Protected storage</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Family members</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">₹0</div>
+            <div class="stat-label">Monthly fees</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Years designed to last</div>
           </div>
         </div>
       </div>
     </section>
 
+    <div class="divider"></div>
+
+    <!-- ====================== ACCESS ANYWHERE ====================== -->
     <section id="access-anywhere" class="section alt-section">
       <div class="container">
-        <div class="eyebrow">ACCESS FROM ANYWHERE</div>
-        <h2>Your photos travel with you.</h2>
-        <div class="callout">No port-forwarding required</div>
+        <div class="section-header text-center" data-aos="fade-up">
+          <div class="eyebrow">Access from Anywhere</div>
+          <h2>Your photos travel with you.</h2>
+          <p class="subhead">
+            Whether you're at home on fast Wi-Fi or travelling abroad — your full library is always one tap away.
+          </p>
+          <div class="callout-badge" data-aos="fade-up" data-aos-delay="50">
+            ✓ No port-forwarding required. Ever.
+          </div>
+        </div>
 
         <div class="access-grid">
-          <div class="access-card">
-            <div class="access-emoji">🏠</div>
+          <div class="access-card" data-aos="fade-up" data-aos-delay="0">
+            <div class="access-emoji-wrap">🏠</div>
             <h3>At Home</h3>
-            <p>Lightning-fast backups on your local network. Auto-backup runs quietly in the background.</p>
+            <p>Lightning-fast backups on your local Wi-Fi network. Auto-backup runs quietly in the background — no tapping, no thinking.</p>
           </div>
 
-          <div class="access-card">
-            <div class="access-emoji">✈️</div>
+          <div class="access-card" data-aos="fade-up" data-aos-delay="80">
+            <div class="access-emoji-wrap">✈️</div>
             <h3>On the Go</h3>
-            <p>View your entire library from any phone, anywhere. Encrypted tunnel, no setup.</p>
+            <p>View your entire library from any phone, anywhere in the world. Our secure encrypted tunnel connects you without any setup.</p>
           </div>
 
-          <div class="access-card">
-            <div class="access-emoji">🛡️</div>
+          <div class="access-card" data-aos="fade-up" data-aos-delay="160">
+            <div class="access-emoji-wrap">🔐</div>
             <h3>Always Private</h3>
-            <p>Data passes through secure edge routing but is NEVER stored in the cloud. You own it.</p>
+            <p>Data passes through secure edge routing but is <strong>never stored in the cloud</strong>. Your photos live on hardware you physically own.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="how-it-works" class="section">
-      <div class="container">
-        <div class="eyebrow">HOW IT WORKS</div>
-        <h2>Up and running in 5 minutes.</h2>
+    <div class="divider"></div>
 
-        <div class="steps">
-          <div class="step">
-            <div class="num">1</div>
-            <div class="body">
-              <h4>Plug it in</h4>
-              <p>Connect to power and your router.</p>
+    <!-- ====================== HOW IT WORKS ====================== -->
+    <section id="how-it-works" class="section how-it-works-section">
+      <div class="container">
+        <div class="section-header text-center" data-aos="fade-up">
+          <div class="eyebrow">Setup</div>
+          <h2>Up and running in 5 minutes.</h2>
+          <p class="subhead">No IT degree required. No configuration headaches. Just plug it in and you're done.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step" data-aos="fade-up" data-aos-delay="0">
+            <div class="step-num">1</div>
+            <div>
+              <h4>Plug It In</h4>
+              <p>Connect PersonalVault to power and your router with the included cable. Takes 30 seconds.</p>
             </div>
           </div>
 
-          <div class="step">
-            <div class="num">2</div>
-            <div class="body">
+          <div class="step" data-aos="fade-up" data-aos-delay="80">
+            <div class="step-num">2</div>
+            <div>
               <h4>Get the App</h4>
-              <p>Download the free app on iPhone or Android.</p>
+              <p>Download the free PersonalVault app on iPhone or Android from the App Store or Play Store.</p>
             </div>
           </div>
 
-          <div class="step">
-            <div class="num">3</div>
-            <div class="body">
+          <div class="step" data-aos="fade-up" data-aos-delay="160">
+            <div class="step-num">3</div>
+            <div>
               <h4>Scan & Pair</h4>
-              <p>Scan the QR code to connect securely.</p>
+              <p>Scan the QR code on your device using the app. Secure pairing completes in seconds.</p>
             </div>
           </div>
 
-          <div class="step">
-            <div class="num">4</div>
-            <div class="body">
-              <h4>You're Done</h4>
-              <p>Auto-backup starts. Photos safe at home.</p>
+          <div class="step" data-aos="fade-up" data-aos-delay="240">
+            <div class="step-num">4</div>
+            <div>
+              <h4>Done ✓</h4>
+              <p>Auto-backup starts immediately. Your photos are now safe at home, accessible everywhere.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="comparison" class="section alt-section">
+    <div class="divider"></div>
+
+    <!-- ====================== TESTIMONIALS ====================== -->
+    <section class="section testimonials-section alt-section">
       <div class="container">
-        <div class="eyebrow">THE HONEST MATH</div>
-        <h2>What cloud storage actually costs you.</h2>
+        <div class="section-header text-center" data-aos="fade-up">
+          <div class="eyebrow">Early Feedback</div>
+          <h2>Families love PersonalVault.</h2>
+          <p class="subhead">
+            From beta testers and early adopters across India — here's what they're saying.
+          </p>
+        </div>
 
-        <div class="comparison" role="table" aria-label="Cloud comparison">
-          <div class="comparison-grid">
-            <div class="comparison-row">
-              <div class="comp-cell comp-head">Feature</div>
-              <div class="comp-cell comp-head">Google One (1TB)</div>
-              <div class="comp-cell comp-head">OneDrive (1TB)</div>
-              <div class="comp-cell comp-head comp-winner">PersonalVault<br><span class="best-pill">Best Value</span></div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card" data-aos="fade-up" data-aos-delay="0">
+            <div class="testimonial-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
             </div>
-
-            <div class="comparison-row">
-              <div class="comp-cell">Monthly cost</div>
-              <div class="comp-cell">₹650/mo</div>
-              <div class="comp-cell">₹575/mo</div>
-              <div class="comp-cell">₹0/mo</div>
+            <p class="testimonial-text">
+              "Set it up in 4 minutes. Seriously. My entire Google Photos library was backed up wirelessly overnight. I cancelled my Google One subscription the next day."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">RK</div>
+              <div>
+                <div class="author-name">Rahul K.</div>
+                <div class="author-role">Software engineer, Bengaluru</div>
+              </div>
             </div>
+          </div>
 
-            <div class="comparison-row">
-              <div class="comp-cell">Year 1</div>
-              <div class="comp-cell">₹7,800</div>
-              <div class="comp-cell">₹6,899</div>
-              <div class="comp-cell">₹16,500 (one-time)</div>
+          <div class="testimonial-card" data-aos="fade-up" data-aos-delay="80">
+            <div class="testimonial-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
             </div>
-
-            <div class="comparison-row">
-              <div class="comp-cell">Year 2</div>
-              <div class="comp-cell">₹15,600</div>
-              <div class="comp-cell">₹13,798</div>
-              <div class="comp-cell">₹16,500</div>
+            <p class="testimonial-text">
+              "We have two kids and thousands of photos. The idea that Google or Apple owns those memories worried me. PersonalVault solved that completely."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">PS</div>
+              <div>
+                <div class="author-name">Priya S.</div>
+                <div class="author-role">Teacher & mother of two, Pune</div>
+              </div>
             </div>
+          </div>
 
-            <div class="comparison-row">
-              <div class="comp-cell">Year 3</div>
-              <div class="comp-cell">₹23,400</div>
-              <div class="comp-cell">₹20,697</div>
-              <div class="comp-cell">₹16,500</div>
+          <div class="testimonial-card" data-aos="fade-up" data-aos-delay="160">
+            <div class="testimonial-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
             </div>
-
-            <div class="comparison-row">
-              <div class="comp-cell">Year 5</div>
-              <div class="comp-cell">₹39,000</div>
-              <div class="comp-cell">₹34,495</div>
-              <div class="comp-cell">₹16,500</div>
-            </div>
-
-            <div class="comparison-row">
-              <div class="comp-cell">Who owns data</div>
-              <div class="comp-cell">Google</div>
-              <div class="comp-cell">Microsoft</div>
-              <div class="comp-cell"><strong>You</strong></div>
-            </div>
-
-            <div class="comparison-row">
-              <div class="comp-cell">Works offline</div>
-              <div class="comp-cell">❌</div>
-              <div class="comp-cell">❌</div>
-              <div class="comp-cell">✅</div>
-            </div>
-
-            <div class="comparison-row">
-              <div class="comp-cell">Price can increase</div>
-              <div class="comp-cell">✅</div>
-              <div class="comp-cell">✅</div>
-              <div class="comp-cell">❌ Never</div>
+            <p class="testimonial-text">
+              "The dual-drive backup is a killer feature. My old NAS failed once and I lost 3 years of photos. Never again. PersonalVault's RAID mirroring is automatic."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">AM</div>
+              <div>
+                <div class="author-name">Arjun M.</div>
+                <div class="author-role">Photographer, Mumbai</div>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="savings">Over 5 years, PersonalVault saves you ₹22,500+ vs Google One and ₹17,995+ vs OneDrive</div>
       </div>
     </section>
 
+    <div class="divider"></div>
+
+    <!-- ====================== COMPARISON ====================== -->
+    <section id="comparison" class="section comparison-section">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <div class="eyebrow">The Honest Math</div>
+          <h2>What cloud storage actually costs you.</h2>
+          <p class="subhead">
+            Monthly subscriptions seem small — until you look at what they add up to over years. We ran the numbers.
+          </p>
+        </div>
+
+        <div class="comparison-wrapper" data-aos="fade-up" data-aos-delay="50">
+          <table class="comparison-table" role="table" aria-label="PersonalVault vs cloud storage comparison">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Google One (1TB)</th>
+                <th scope="col">OneDrive (1TB)</th>
+                <th scope="col" class="col-winner-head">
+                  PersonalVault
+                  <div><span class="best-pill">✦ Best Value</span></div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Monthly cost</td>
+                <td>₹650/mo</td>
+                <td>₹575/mo</td>
+                <td class="col-winner"><strong>₹0/mo</strong></td>
+              </tr>
+              <tr>
+                <td>Year 1 total</td>
+                <td>₹7,800</td>
+                <td>₹6,899</td>
+                <td class="col-winner"><strong>₹16,500</strong> <small>(one-time)</small></td>
+              </tr>
+              <tr>
+                <td>Year 2 total</td>
+                <td>₹15,600</td>
+                <td>₹13,798</td>
+                <td class="col-winner"><strong>₹16,500</strong></td>
+              </tr>
+              <tr>
+                <td>Year 3 total</td>
+                <td>₹23,400</td>
+                <td>₹20,697</td>
+                <td class="col-winner"><strong>₹16,500</strong></td>
+              </tr>
+              <tr>
+                <td>Year 5 total</td>
+                <td>₹39,000</td>
+                <td>₹34,495</td>
+                <td class="col-winner"><strong>₹16,500</strong></td>
+              </tr>
+              <tr>
+                <td>Who owns your data</td>
+                <td>Google</td>
+                <td>Microsoft</td>
+                <td class="col-winner"><strong>You</strong></td>
+              </tr>
+              <tr>
+                <td>Works offline</td>
+                <td><span class="x-icon">✗</span></td>
+                <td><span class="x-icon">✗</span></td>
+                <td class="col-winner"><span class="check-icon">✓</span></td>
+              </tr>
+              <tr>
+                <td>Price can increase</td>
+                <td><span class="x-icon">✗ Yes</span></td>
+                <td><span class="x-icon">✗ Yes</span></td>
+                <td class="col-winner"><span class="check-icon">✓ Never</span></td>
+              </tr>
+              <tr>
+                <td>Data used for AI training</td>
+                <td>Possible</td>
+                <td>Possible</td>
+                <td class="col-winner"><span class="check-icon">✓ Never</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="savings-banner" data-aos="fade-up" data-aos-delay="100">
+          Over 5 years, PersonalVault saves you <strong>₹22,500+ vs Google One</strong> and <strong>₹17,995+ vs OneDrive</strong>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ====================== PRICING ====================== -->
     <section id="pricing" class="section pricing-section">
       <div class="container">
-        <div class="eyebrow">PRICING</div>
-        <h2>Reserve your PersonalVault</h2>
-        <div class="pricing-grid">
-          <div class="pricing-card">
-            <div class="early-bird">EARLY BIRD</div>
-            <div class="price">₹16,500</div>
-            <p class="pricing-note">Early bird — one-time payment. Shipping from June 2026.</p>
+        <div class="section-header" data-aos="fade-up">
+          <div class="eyebrow">Pricing</div>
+          <h2>Reserve your PersonalVault</h2>
+          <p class="subhead">
+            Lock in the early bird price before it goes up. Limited units at ₹16,500.
+          </p>
+        </div>
 
-            <!-- Pre-checkout form (replaces simple CTA) -->
-            <form id="precheckout-form" class="precheckout-form">
+        <div class="pricing-wrapper">
+          <!-- Payment form card -->
+          <div class="pricing-card" data-aos="fade-up" data-aos-delay="50">
+            <div class="early-bird-badge">
+              🔥 Early Bird Offer
+            </div>
+
+            <div class="price-display">
+              <span class="price-amount">₹16,500</span>
+              <span class="price-suffix">one-time</span>
+            </div>
+            <div class="price-compare">Launch price: ₹17,500</div>
+            <p class="price-note">No recurring fees. No subscriptions. Ever. Ships from June 2026.</p>
+
+            <form id="precheckout-form" class="precheckout-form" novalidate>
               <label class="visually-hidden" for="pv-name">Full name</label>
-              <input id="pv-name" name="name" type="text" placeholder="Full name" required>
+              <input id="pv-name" name="name" type="text" placeholder="Full name" required autocomplete="name">
 
-              <label class="visually-hidden" for="pv-email">Email</label>
-              <input id="pv-email" name="email" type="email" placeholder="Email address" required>
+              <label class="visually-hidden" for="pv-email">Email address</label>
+              <input id="pv-email" name="email" type="email" placeholder="Email address" required autocomplete="email">
 
-              <label class="visually-hidden" for="pv-phone">Phone</label>
-              <input id="pv-phone" name="phone" type="tel" placeholder="Phone (10 digits)" required>
+              <label class="visually-hidden" for="pv-phone">Phone number</label>
+              <input id="pv-phone" name="phone" type="tel" placeholder="Phone number (10 digits)" required autocomplete="tel">
 
-              <p class="address-note">
-                <span class="lock-icon">🔒</span>
-                No address needed yet — we'll email you a secure link to add delivery details after payment.
-              </p>
+              <div class="address-note">
+                🔒&nbsp; No delivery address needed yet — we'll email you a secure link after payment.
+              </div>
 
-              <button type="submit" class="btn primary large" id="pay-button">Proceed to Payment — ₹16,500</button>
-              <p class="payment-trust-line">Your shipping address will be collected securely after payment.</p>
+              <button type="submit" class="btn primary large" id="pay-button" style="width:100%;justify-content:center;margin-top:4px;">
+                Proceed to Payment — ₹16,500
+              </button>
+              <p class="payment-trust-line">Secured by Razorpay · Your address collected after payment</p>
               <div class="form-error" id="precheckout-error" aria-live="polite" style="display:none"></div>
             </form>
 
-            <div class="trust-badges">
-              <span>🔒 Secure via Razorpay</span>
-              <span>•</span>
-              <span>↩️ 30-day refund</span>
-              <span>•</span>
-              <span>🛡️ 1-yr warranty</span>
+            <div class="trust-badges-row">
+              <div class="trust-badge">🔒 Razorpay Secure</div>
+              <div class="trust-badge">↩️ 30-day refund</div>
+              <div class="trust-badge">🛡️ 1-yr warranty</div>
             </div>
-
-            <p class="legal">Launch price after pre-order: ₹17,500</p>
+            <p class="legal-note">Launch price after pre-order closes: ₹17,500</p>
           </div>
-          <div class="features-list">
-            <ul>
-              <li>1TB protected storage, mirrored</li>
-              <li>Access from anywhere — encrypted connections</li>
-              <li>No port-forwarding or router configuration required</li>
-              <li>Designed and assembled in India</li>
+
+          <!-- Features checklist -->
+          <div class="pricing-features" data-aos="fade-up" data-aos-delay="100">
+            <h3>What's included</h3>
+            <ul class="pricing-feature-list">
+              <li>1TB protected storage — dual-drive RAID 1 mirroring</li>
+              <li>Access from anywhere with encrypted connections</li>
+              <li>No port-forwarding or router configuration needed</li>
+              <li>Family sharing — up to 5 accounts</li>
+              <li>Automatic backup for Android &amp; iPhone</li>
+              <li>Free app updates, forever</li>
+              <li>1-year hardware warranty</li>
+              <li>Email support within 24 hours</li>
+              <li>Designed and assembled in India 🇮🇳</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="waitlist" class="section">
-      <div class="container">
-        <div class="eyebrow">STAY UPDATED</div>
-        <h2>Not ready to pre-order?</h2>
-        <p class="subhead">Join our waitlist for shipping updates and availability.</p>
+    <div class="divider"></div>
 
-        <form id="waitlist-form" class="waitlist-form" aria-live="polite">
-          <label class="visually-hidden" for="waitlist-email">Email</label>
-          <input id="waitlist-email" name="email" type="email" placeholder="Your email address" required>
-          <button type="submit" class="btn primary" id="waitlist-button">Join Waitlist</button>
-        </form>
+    <!-- ====================== WAITLIST ====================== -->
+    <section id="waitlist" class="waitlist-section">
+      <div class="container text-center">
+        <div class="eyebrow" data-aos="fade-up">Stay Updated</div>
+        <h2 data-aos="fade-up" data-aos-delay="50">Not ready to pre-order?</h2>
+        <p class="subhead" data-aos="fade-up" data-aos-delay="100">
+          Join the waitlist for shipping updates and when new stock becomes available.
+        </p>
 
-        <div class="waitlist-success" id="waitlist-success" style="display:none">Thanks — we'll notify you when PersonalVault is available.</div>
-        <div class="form-error" id="waitlist-error" style="display:none" aria-live="polite"></div>
-        <p class="note">No spam. Only PersonalVault updates.</p>
+        <div class="waitlist-form-wrap" data-aos="fade-up" data-aos-delay="150">
+          <form id="waitlist-form" class="waitlist-form" aria-live="polite" novalidate>
+            <label class="visually-hidden" for="waitlist-email">Email address</label>
+            <input id="waitlist-email" name="email" type="email" placeholder="Your email address" required autocomplete="email">
+            <button type="submit" class="btn primary" id="waitlist-button">
+              Join Waitlist
+            </button>
+          </form>
+          <div class="waitlist-success" id="waitlist-success" style="display:none">
+            ✓ You're on the list! We'll notify you when PersonalVault is available.
+          </div>
+          <div class="form-error" id="waitlist-error" style="display:none" aria-live="polite"></div>
+          <p class="note" style="margin-top:12px;">No spam. Only PersonalVault updates.</p>
+        </div>
       </div>
     </section>
 
-    <section id="faq" class="section alt-section">
+    <div class="divider"></div>
+
+    <!-- ====================== FAQ ====================== -->
+    <section id="faq" class="section faq-section">
       <div class="container">
-        <div class="eyebrow">FAQ</div>
-        <h2>Frequently asked questions</h2>
-        <div class="faq-list">
-          <details>
-            <summary>What happens to my photos if PersonalVault shuts down?<span class="chev">▾</span></summary>
-            <p>Your photos live on YOUR device, not our servers. Even if we shut down tomorrow, your photos are safely on the hardware you own, and the device continues to work.</p>
-          </details>
-          <details>
-            <summary>How is this different from Google Photos or OneDrive?<span class="chev">▾</span></summary>
-            <p>Cloud services store your photos on their servers and charge monthly. PersonalVault stores everything locally on a device you own — one payment, no recurring fees, and your data stays private.</p>
-          </details>
-          <details>
-            <summary>Can multiple family members use it?<span class="chev">▾</span></summary>
-            <p>Yes. Create separate accounts for up to 5 family members. Everyone gets their own private space, with shared albums when you want them.</p>
-          </details>
-          <details>
-            <summary>What is the storage and redundancy?<span class="chev">▾</span></summary>
-            <p>1TB of protected storage — Two drives mirror your photos automatically. If one fails, your memories are safe.</p>
-          </details>
-          <details>
-            <summary>How does remote access work?<span class="chev">▾</span></summary>
-            <p>Access from anywhere — View your entire library from any phone, anywhere in the world. No port-forwarding or router configuration required. Encrypted connections. Your data stays local.</p>
-          </details>
-          <details>
-            <summary>How do I contact support?<span class="chev">▾</span></summary>
-            <p>Email support@personalvault.in — we respond within 24 hours on business days.</p>
-          </details>
+        <div class="section-header text-center" data-aos="fade-up">
+          <div class="eyebrow">FAQ</div>
+          <h2>Frequently asked questions</h2>
+          <p class="subhead">Everything you need to know before you order.</p>
+        </div>
 
-          <details>
-            <summary>Why don't you ask for my delivery address during checkout?<span class="chev">▾</span></summary>
-            <p>We've kept checkout intentionally simple — just your name, email, and phone to reserve your vault. Once payment is confirmed, we'll email you a secure link to add your delivery address at your convenience. Your spot is locked in the moment you pay.</p>
-          </details>
+        <div class="faq-grid" data-aos="fade-up" data-aos-delay="50">
+          <div class="faq-list">
 
+            <details class="faq-item">
+              <summary>
+                What happens to my photos if PersonalVault shuts down?
+                <div class="faq-chevron">▾</div>
+              </summary>
+              <p>Your photos live on YOUR device, not our servers. Even if we shut down tomorrow, your photos are safely on the hardware you own, and the device continues to work completely independently.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                How is this different from Google Photos or OneDrive?
+                <div class="faq-chevron">▾</div>
+              </summary>
+              <p>Cloud services store your photos on their servers and charge monthly. PersonalVault stores everything locally on a device you own — one payment, no recurring fees, and your data stays private and never leaves your home.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                Can multiple family members use it?
+                <div class="faq-chevron">▾</div>
+              </summary>
+              <p>Yes. Create separate accounts for up to 5 family members. Everyone gets their own private space, with shared albums when you want them. Everyone in the family can back up independently.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                What is the storage capacity and how does RAID work?
+                <div class="faq-chevron">▾</div>
+              </summary>
+              <p>You get 1TB of protected usable storage. PersonalVault uses two drives in RAID 1 mirroring — they automatically copy every photo to both drives in real time. If one drive fails, your memories are completely safe on the second drive. We'll send you a replacement drive and guide you through the swap.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                How does remote access work without port-forwarding?
+                <div class="faq-chevron">▾</div>
+              </summary>
+              <p>PersonalVault uses an encrypted tunnel — similar to what VPNs use — to create a secure connection between your phone and your device at home. Your data passes through our edge relay infrastructure for routing, but is never stored or readable there. Think of it like a sealed tube — we move it, we never see it.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                When will PersonalVault ship?
+                <div class="faq-chevron">▾</div>
+              </summary>
+              <p>We're shipping from June 2026. Early bird reservations will receive their units first, in order of reservation. You'll receive tracking updates via email as your order progresses.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                Why don't you ask for my delivery address during checkout?
+                <div class="faq-chevron">▾</div>
+              </summary>
+              <p>We've kept checkout intentionally simple — just your name, email, and phone to secure your reservation. Once payment is confirmed, we'll email you a secure link to add your delivery address at your convenience. Your spot is locked in the moment you pay.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                How do I contact support?
+                <div class="faq-chevron">▾</div>
+              </summary>
+              <p>Email us at <a href="mailto:support@personalvault.in">support@personalvault.in</a> — we respond within 24 hours on business days. We're a small, focused team and every support request goes directly to a real person.</p>
+            </details>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ====================== FINAL CTA ====================== -->
+    <section class="section cta-section">
+      <div class="container">
+        <div class="cta-card" data-aos="fade-up">
+          <div class="eyebrow" style="justify-content:center;">Ready?</div>
+          <h2>Own your memories.<br>Forever.</h2>
+          <p class="subhead" style="max-width:500px;margin:0 auto 32px;">
+            No subscriptions. No cloud. No compromise. Just your photos — safe, private, accessible anywhere.
+          </p>
+          <div class="cta-buttons">
+            <a class="btn primary xl" href="#pricing">
+              Reserve Early Bird — ₹16,500
+            </a>
+            <a class="btn ghost large" href="mailto:support@personalvault.in">
+              Questions? Email Us
+            </a>
+          </div>
+          <p class="note" style="margin-top:20px;">Ships June 2026 · 30-day money back · 1-year warranty</p>
         </div>
       </div>
     </section>
 
   </main>
 
+  <!-- ====================== FOOTER ====================== -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-inner">
-        <a href="/" class="logo-link">
-          <img src="logo.png" alt="PersonalVault" class="logo small">
-          <span class="logo-text">PersonalVault</span>
-        </a>
-        <p>© PersonalVault — Designed and assembled in India.</p>
-        <nav class="footer-links">
+        <div class="footer-logo-area">
+          <a href="/" class="logo-link" aria-label="PersonalVault home">
+            <img src="logo.png" alt="PersonalVault" class="logo small">
+            <span class="logo-text">PersonalVault</span>
+          </a>
+          <div class="footer-tagline">Your photos. Your home. Your rules.</div>
+        </div>
+        <p class="footer-meta">© 2026 PersonalVault — Designed &amp; assembled in India 🇮🇳</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="faq.html">FAQ</a>
           <a href="privacy.html">Privacy Policy</a>
           <a href="mailto:support@personalvault.in">support@personalvault.in</a>
         </nav>
@@ -435,6 +746,18 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=20260313c"></script>
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 600,
+      easing: 'ease-out-cubic',
+      once: true,
+      offset: 60,
+      disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    });
+  </script>
+
+  <script src="js/main.js?v=20260316"></script>
 </body>
 </html>

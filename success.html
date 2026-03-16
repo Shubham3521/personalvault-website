@@ -4,42 +4,168 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Order Confirmed — PersonalVault</title>
-  <link rel="stylesheet" href="css/style.css?v=20260312">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260316">
+  <link rel="icon" href="logo.png" type="image/png">
+  <style>
+    .success-page {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      padding: 60px 0;
+    }
+    .success-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(45, 212, 191, 0.2);
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 640px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .success-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #F97316, #2DD4BF);
+    }
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 24px;
+    }
+    .success-card h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    .order-id {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 12px 0 20px;
+      font-weight: 600;
+    }
+    .next-steps {
+      background: rgba(249, 115, 22, 0.06);
+      border: 1px solid rgba(249, 115, 22, 0.15);
+      border-radius: 14px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+    .next-steps h3 {
+      font-size: 16px;
+      margin-bottom: 16px;
+      color: var(--saffron);
+    }
+    .next-steps ol {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .next-steps li {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .cta-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .later-note {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-top: 16px;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
-  <main style="padding:40px;max-width:900px;margin:40px auto;color:var(--muted-white);">
-    <div style="background:linear-gradient(180deg,#0F1E30,#162336);padding:28px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);">
-      <h1>You're in! 🎉</h1>
-      <p id="order-id" style="font-weight:700;margin-top:6px"></p>
-      <p style="margin-top:12px">Your PersonalVault is reserved. We've sent a confirmation to your email. Use the link in that email to add your delivery address — takes less than a minute.</p>
-      <h3 style="margin-top:18px">Next step: Add your delivery address</h3>
-      <p>Please verify your email and add your delivery address so we can deliver your PersonalVault. Estimated shipping: June 2026.</p>
-      <ol>
-        <li>Click the button below (or use the link in your email).</li>
-        <li>Verify your email with a one-time code.</li>
-        <li>Enter your shipping address.</li>
-      </ol>
-      <div style="margin-top:18px">
-        <a class="btn primary" id="add-address" href="#">Add Delivery Address →</a>
-        <a class="btn primary" href="index.html" style="margin-left:8px">Back to Home</a>
+
+  <header class="site-nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo-link">
+        <img src="logo.png" alt="PersonalVault" class="logo">
+        <span class="logo-text">PersonalVault</span>
+      </a>
+      <nav>
+        <a href="/" class="btn ghost" style="font-size:14px;">← Back to Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="success-page">
+    <div class="container">
+      <div class="success-card">
+        <div class="success-icon">🎉</div>
+        <h1>You're in!</h1>
+        <div class="order-id" id="order-id">Loading…</div>
+        <p style="color:var(--text-secondary);font-size:16px;line-height:1.7;">
+          Your PersonalVault is reserved. We've sent a confirmation to your email. Next step is to add your delivery address — takes less than a minute.
+        </p>
+
+        <div class="next-steps">
+          <h3>Next: Add your delivery address</h3>
+          <ol>
+            <li>Click the button below to open the secure address form</li>
+            <li>Verify your email with a one-time code</li>
+            <li>Enter your shipping address — done!</li>
+          </ol>
+        </div>
+
+        <div class="cta-group">
+          <a class="btn primary large" id="add-address" href="#">
+            Add Delivery Address →
+          </a>
+          <a class="btn ghost large" href="/">
+            Back to Home
+          </a>
+        </div>
+        <p class="later-note">Or do it later from your confirmation email — the link will be there waiting.</p>
       </div>
-      <p class="success-later-note">Or do it later from your email — it'll be there waiting.</p>
     </div>
   </main>
 
   <script>
-    function getParam(name){
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
+    function getParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
     }
     const order = getParam('order');
     const token = getParam('token');
     const el = document.getElementById('order-id');
-    if(order){ el.textContent = `Order # ${order}` } else { el.textContent = 'Order reference not found.' }
+    if (order) {
+      el.textContent = '# ' + order;
+    } else {
+      el.textContent = 'Order confirmed';
+    }
     const addBtn = document.getElementById('add-address');
-    addBtn.addEventListener('click', ()=>{
+    addBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       const t = token || order;
-      if(t){ window.location.href = `shipping.html?token=${t}` } else { alert('No order reference found. Check your email for the shipping address link.'); }
+      if (t) {
+        window.location.href = 'shipping.html?token=' + encodeURIComponent(t);
+      } else {
+        alert('No order reference found. Please check your email for the shipping address link.');
+      }
     });
   </script>
 </body>
