@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.personalvault.mobile",
+      "sha256_cert_fingerprints": [
+        "16:97:9C:D1:E7:E8:EA:EF:BE:F9:3C:3D:56:86:18:3F:1F:13:6C:3F:7E:00:6A:32:78:BE:3E:2D:9A:F4:63:61"
+      ]
+    }
+  }
+]

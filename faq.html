@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - PersonalVault</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1A73E8;
+            --primary-dark: #1557B0;
+            --secondary: #34A853;
+            --dark: #202124;
+            --gray: #5F6368;
+            --light: #F8F9FA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Google Sans', sans-serif;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 20px 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--dark);
+            font-family: 'Google Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 48px;
+        }
+
+        /* FAQ Categories */
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #E8EAED;
+            color: var(--primary);
+        }
+
+        /* FAQ Items */
+        .faq-item {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: #F8F9FA;
+        }
+
+        .faq-question .material-icons {
+            color: var(--gray);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question .material-icons {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 24px 20px;
+            color: var(--gray);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 48px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .contact-section h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .contact-section p {
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+
+        .contact-options {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .email {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .contact-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <span class="material-icons">cloud</span>
+                </div>
+                PersonalVault
+            </a>
+            <a href="/" class="btn btn-primary">
+                <span class="material-icons">home</span>
+                Home
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Frequently Asked Questions</h1>
+        <p class="subtitle">Everything you need to know about PersonalVault</p>
+
+        <!-- Product Questions -->
+        <div class="category">
+            <h2>📦 Product</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What is PersonalVault?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        PersonalVault is a personal storage device that backs up your phone's photos, videos, and files automatically. It's like having your own private cloud — but you own the hardware. No monthly fees, no subscriptions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What's included in the box?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <ul>
+                            <li>Raspberry Pi 4 (4GB RAM)</li>
+                            <li>1TB hard drive</li>
+                            <li>Power adapter</li>
+                            <li>Ethernet cable</li>
+                            <li>Quick start guide</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How much storage do I get?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        The standard model comes with 1TB of storage. That's enough for approximately 300,000+ photos or 500+ hours of HD video. You can also expand storage later by connecting external drives.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Setup Questions -->
+        <div class="category">
+            <h2>⚡ Setup & Usage</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Is setup really that easy?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes! Just 4 steps:
+                        <ol>
+                            <li>Plug the device into power and your router</li>
+                            <li>Download the PersonalVault app</li>
+                            <li>Scan the QR code on the device</li>
+                            <li>That's it! Backup starts automatically</li>
+                        </ol>
+                        Total time: About 5 minutes.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Do I need technical knowledge?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Not at all! If you can set up a WiFi router, you can set up PersonalVault. The QR code does all the hard work. We also include setup support if you need help.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Do I need constant internet?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        The device needs to be connected to the internet to:
+                        <ul>
+                            <li>Access your files remotely (outside home)</li>
+                            <li>Sync new backups</li>
+                        </ul>
+                        But your photos are stored locally on the device. Even without internet at home, you can connect and view them when you're away.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Questions -->
+        <div class="category">
+            <h2>💳 Payment & Shipping</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What payment methods do you accept?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        We accept all major payment methods through Razorpay:
+                        <ul>
+                            <li>Credit/Debit Cards (Visa, Mastercard, RuPay)</li>
+                            <li>UPI (Google Pay, PhonePe, Paytm)</li>
+                            <li>Net Banking</li>
+                            <li>No-cost EMI (6 months)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Do you offer returns?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes! We offer a 30-day return policy. If you're not satisfied with PersonalVault for any reason, return it for a full refund. We want you to be completely happy with your purchase.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How long does shipping take?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        We ship within 3-5 business days. Delivery typically takes 5-10 days depending on your location. You'll receive tracking information via SMS and email.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Questions -->
+        <div class="category">
+            <h2>🔧 Technical</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Which phones are supported?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Currently, we support Android phones. The app works on Android 8.0 and above. iOS support is coming soon!
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What about WhatsApp backup?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes! PersonalVault can automatically back up your WhatsApp photos and videos. This is especially important for Indian users where WhatsApp is heavily used for sharing photos and videos.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What happens if the device breaks?
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        All PersonalVault devices come with a 2-year warranty. If it stops working within warranty, we'll replace it free of charge. We stand behind our product.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h2>Still Have Questions?</h2>
+            <p>We're here to help. Reach out to us anytime.</p>
+            <div class="contact-options">
+                <a href="https://wa.me/91XXXXXXXXXX" class="contact-btn whatsapp">
+                    <span class="material-icons">chat</span>
+                    WhatsApp
+                </a>
+                <a href="mailto:support@personalvault.in" class="contact-btn email">
+                    <span class="material-icons">email</span>
+                    Email Support
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 PersonalVault. Made with ❤️ in India.</p>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
